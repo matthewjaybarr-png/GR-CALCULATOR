@@ -1,0 +1,24 @@
+{
+  "name": "GR Programming Calculator",
+  "short_name": "GR Calculator",
+  "description": "Machining, CNC programming, geometry, thread, drill, and shop-math helpers.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef2f7",
+  "theme_color": "#0070d8",
+  "icons": [
+    {
+      "src": "./icons/gr-calculator-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/gr-calculator-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

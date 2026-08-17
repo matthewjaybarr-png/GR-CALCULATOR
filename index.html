@@ -4,270 +4,65 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0070d8" name="theme-color"/>
 <title>GR PROGRAMMING CALCULATOR</title>
-<style>
-:root{
---bg:#eef2f7;
---card:#ffffff;
---line:#d6dde8;
---text:#111827;
---muted:#6b7280;
---accent:#0070d8;
---soft:#f8fafc;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:86px}
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
-color:var(--text);
-}
-.topbar{
-position:sticky;
-top:0;
-z-index:20;
-background:#fff;
-border-bottom:1px solid var(--line);
-padding:10px 16px;
-box-shadow:0 1px 3px rgba(0,0,0,.05);
-}
-.topbar h1{
-margin:0 0 8px 0;
-font-size:34px;
-font-weight:900;
-letter-spacing:.06em;
-text-align:center;
-}
-.nav{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-justify-content:center;
-}
-.nav a{
-text-decoration:none;
-padding:6px 10px;
-border:1px solid #7db8f2;
-border-radius:999px;
-background:var(--accent);
-color:#fff;
-font-size:12px;
-font-weight:700;
-}
-.wrap{
-max-width:1460px;
-margin:0 auto;
-padding:10px;
-}
-.center-narrow{
-max-width:none;
-margin:0 0 12px 0;
-}
-.grid-auto{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:8px;
-margin-bottom:8px;
-align-items:start;
-}
-.reference-stack{
-display:grid;
-grid-template-columns:1fr;
-gap:16px;
-margin-bottom:16px;
-}
-.hero{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:16px;
-padding:18px;
-margin-bottom:18px;
-}
-.hero p{
-margin:8px 0 0 0;
-color:var(--muted);
-line-height:1.45;
-}
-.badge{
-display:inline-block;
-padding:5px 9px;
-border-radius:999px;
-background:var(--accent);
-border:1px solid #7db8f2;
-font-size:12px;
-font-weight:700;
-margin-right:6px;
-margin-bottom:6px;
-color:#fff;
-}
-.sectionhead{
-scroll-margin-top:100px;
-margin:12px 0 8px 0;
-padding:6px 10px;
-border-left:6px solid var(--accent);
-background:#f8fafc;
-border-radius:10px;
-font-size:18px;
-font-weight:800;
-}
-.grid2{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:8px;
-margin-bottom:8px;
-align-items:start;
-}
-.compact-grid{
-align-items:start;
-}
-.grid3{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:8px;
-margin-bottom:8px;
-align-items:start;
-}
-.card{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:16px;
-padding:10px;
-}
-.card h2{
-margin:0 0 14px 0;
-font-size:18px;
-}
-.card h3{
-margin:6px 0 8px 0;
-font-size:15px;
-}
-.row2{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-}
-.row3{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:8px;
-}
-label{
-display:block;
-margin:6px 0 3px 0;
-font-size:12px;
-font-weight:700;
-}
-input,select,button,textarea{
-width:100%;
-padding:8px 10px;
-border:1px solid var(--line);
-border-radius:10px;
-font-size:12px;
-background:#fff;
-color:#111827;
-}
-button{
-cursor:pointer;
-font-weight:700;
-background:var(--accent);
-color:#fff;
-border:1px solid #7db8f2;
-margin-top:10px;
-}
-button.secondary{
-background:#cfe7ff;
-color:#111827;
-border:1px solid #7db8f2;
-}
-button.ghost{
-background:#eaf4ff;
-color:#111827;
-border:1px solid #7db8f2;
-}
-.result{
-margin-top:8px;
-padding:8px 10px;
-background:var(--soft);
-border:1px solid #e5e7eb;
-border-radius:10px;
-font-weight:700;
-line-height:1.45;
-}
-.result:empty{display:none;}
-.note{
-font-size:11px;
-color:var(--muted);
-line-height:1.3;
-margin-top:6px;
-}
-.quick{
-display:flex;
-flex-wrap:wrap;
-gap:6px;
-margin-top:8px;
-}
-.quick button{
-width:auto;
-margin-top:0;
-padding:6px 10px;
-border-radius:999px;
-}
-.scroll{
-overflow:auto;
-max-height:none;
-border:1px solid var(--line);
-border-radius:10px;
-background:#fff;
-}
-.formula-table{
-overflow:visible;
-max-height:none;
-}
-.reference-stack .card .note{margin-bottom:6px;}
-.reference-stack table{font-size:11px;}
-table{
-width:100%;
-border-collapse:collapse;
-font-size:12px;
-}
-th,td{
-border:1px solid var(--line);
-padding:5px 6px;
-text-align:left;
-vertical-align:top;
-}
-th{
-background:#f8fafc;
-position:sticky;
-top:0;
-z-index:1;
-}
-@media (max-width:1100px){
-.grid2,.grid3,.row2,.row3,.grid-auto{
-grid-template-columns:1fr;
-}
-.wrap{padding:10px;}
-}
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&amp;display=swap" rel="stylesheet"/><style>
-h1, .title {
-    font-family: "Orbitron", sans-serif;
-    font-size: 44px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    text-align: center;
-    margin: 12px 0 18px 0;
-    color: #1e3a8a;
-    text-shadow: 0px 0px 8px rgba(30,58,138,0.25);
-}
-</style></head>
+<link href="./manifest.webmanifest" rel="manifest"/>
+<link href="./icons/gr-calculator.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="./css/styles.css" rel="stylesheet"/>
+</head>
 <body>
 <div class="topbar">
 <h1>GR PROGRAMMING CALCULATOR</h1>
-<div class="nav"><a href="#speeds">Speeds and Feeds</a><a href="#drillcharts">Drill Charts</a><a href="#threads">Threads and Taps</a><a href="#milling">Geometry and Helix</a><a href="#shopmath">Shop Math</a><a href="#reference">Reference</a></div>
+<div class="nav"><a href="#shopsetup">Shop Setup</a><a href="#speeds">Speeds and Feeds</a><a href="#drillcharts">Drill Charts</a><a href="#threads">Threads and Taps</a><a href="#milling">Geometry and Helix</a><a href="#advanced">Advanced Math</a><a href="#shopmath">Shop Math</a><a href="#reference">Reference</a></div>
 </div>
 <div class="wrap">
+<div class="sectionhead" id="shopsetup">Shop Setup</div>
+<div class="card workflow-card">
+<div class="workflow-heading">
+<div>
+<h2>Machine Limits and Shop Output</h2>
+<div class="note">Profiles stay in this browser. A zero limit means that limit is not configured; the calculator warns but never silently clamps a result.</div>
+</div>
+<span class="status-chip" id="connectionStatus">Checking connection</span>
+</div>
+<div class="workflow-grid">
+<div>
+<label for="machineProfileSelect">Active machine profile</label>
+<select id="machineProfileSelect" onchange="selectMachineProfile()">
+<option value="">No machine limits selected</option>
+</select>
+</div>
+<div>
+<label for="machineProfileName">Profile name</label>
+<input id="machineProfileName" maxlength="60" type="text"/>
+</div>
+<div>
+<label for="machineMaxRpm">Maximum spindle RPM</label>
+<input id="machineMaxRpm" min="0" step="1" type="number" value="0"/>
+</div>
+<div>
+<label for="machineMaxFeed">Maximum feed IPM</label>
+<input id="machineMaxFeed" min="0" step="any" type="number" value="0"/>
+</div>
+</div>
+<div class="workflow-actions">
+<button onclick="saveMachineProfile()" type="button">Save Profile</button>
+<button class="ghost" onclick="newMachineProfile()" type="button">New Profile</button>
+<button class="danger" onclick="deleteMachineProfile()" type="button">Delete Profile</button>
+</div>
+<div class="result result-info" id="machineProfileStatus">No machine limits selected.</div>
+<div class="workflow-output">
+<div>
+<strong>Latest shop result</strong>
+<div class="note" id="latestResultStatus">Run a calculation to enable copy and download.</div>
+</div>
+<div class="workflow-actions output-actions">
+<button class="secondary" disabled id="copyLatestButton" onclick="copyLatestResult()" type="button">Copy Result</button>
+<button class="ghost" disabled id="downloadLatestButton" onclick="downloadLatestResult()" type="button">Download Note</button>
+</div>
+</div>
+</div>
 <div class="sectionhead" id="speeds">Speeds and Feeds</div>
 <div class="grid2 compact-grid">
 <div class="card">
@@ -290,6 +85,11 @@ h1, .title {
 </select>
 </div>
 </div>
+<label for="speedBasis">Speed calculation basis</label>
+<select id="speedBasis" onchange="updateSpeedBasisUI('main')">
+<option value="sfm">Use SFM to calculate RPM</option>
+<option value="rpm">Use RPM to calculate SFM</option>
+</select>
 <div id="drillToolTypeBox">
 <label for="drillToolType">Drill tool type</label>
 <select id="drillToolType" onchange="updatePresetPreview()">
@@ -299,6 +99,12 @@ h1, .title {
 </div>
 <label for="material">Material</label>
 <select id="material" onchange="updatePresetPreview()"></select>
+<label for="presetLevel">Shop baseline level</label>
+<select id="presetLevel" onchange="updatePresetPreview()">
+<option value="conservative">Low / conservative</option>
+<option selected="selected" value="standard">Standard starting point</option>
+<option value="upper">Upper baseline — verify setup</option>
+</select>
 <div class="row2">
 <div>
 <label for="toolDia">Tool diameter</label>
@@ -336,14 +142,14 @@ h1, .title {
 </div>
 </div>
 <div class="quick">
-<button onclick="applyPreset()">Apply Preset</button>
+<button onclick="applyPreset()">Apply Shop Baseline</button>
 <button class="ghost" onclick="clearMillingCalc()">Clear Variables</button>
 </div>
 <div class="result" id="presetPreview">Preset preview</div>
 <button onclick="calcMain()">Calculate</button>
 <div class="result" id="mainResult"></div>
 <div class="note">
-Enter either SFM or RPM. The calculator will solve the missing one from tool diameter. Drill mode uses IPR. Endmill mode uses radial stepover for chip thinning. Face mill and shoulder mill modes ignore radial stepover in the main calculation.
+Choose the speed calculation basis, then enter the enabled SFM or RPM value. Drill mode uses IPR. Endmill mode uses radial stepover for chip thinning. Face mill and shoulder mill modes ignore radial stepover in the main calculation.
 </div>
 </div>
 <div class="card">
@@ -366,8 +172,19 @@ Enter either SFM or RPM. The calculator will solve the missing one from tool dia
 </select>
 </div>
 </div>
+<label for="turnSpeedBasis">Speed calculation basis</label>
+<select id="turnSpeedBasis" onchange="updateSpeedBasisUI('turn')">
+<option value="sfm">Use SFM to calculate RPM</option>
+<option value="rpm">Use RPM to calculate SFM</option>
+</select>
 <label for="turnMaterial">Material</label>
 <select id="turnMaterial" onchange="updateTurningPresetPreview()"></select>
+<label for="turnPresetLevel">Shop baseline level</label>
+<select id="turnPresetLevel" onchange="updateTurningPresetPreview()">
+<option value="conservative">Low / conservative</option>
+<option selected="selected" value="standard">Standard starting point</option>
+<option value="upper">Upper baseline — verify setup</option>
+</select>
 <div class="row2">
 <div>
 <label for="turnDia">Turning diameter</label>
@@ -389,14 +206,14 @@ Enter either SFM or RPM. The calculator will solve the missing one from tool dia
 </div>
 </div>
 <div class="quick">
-<button onclick="applyTurningPreset()">Apply Preset</button>
+<button onclick="applyTurningPreset()">Apply Shop Baseline</button>
 <button class="ghost" onclick="clearTurningCalc()">Clear Variables</button>
 </div>
 <div class="result" id="turnPresetPreview">Preset preview</div>
 <button onclick="calcTurningMain()">Calculate</button>
 <div class="result" id="turnResult"></div>
 <div class="note">
-Enter either SFM or RPM. The calculator will solve the missing one from diameter. Feed is shown from RPM × IPR so one leftover value does not throw the next result off.
+Choose the speed calculation basis, then enter the enabled SFM or RPM value. Feed is shown from RPM × IPR.
 </div>
 </div>
 </div>
@@ -418,6 +235,7 @@ Enter either SFM or RPM. The calculator will solve the missing one from diameter
 </div>
 <div class="note">
 Quick select stays tied to the built in drill chart. Search or convert lets you type standard drill names, fractions, decimal inch values, or metric sizes and get inch and millimeter conversions.
+Bare decimal values are treated as inches; include mm for metric input.
 </div>
 </div><div class="card">
 <h2>Spot and Center Drill Helper</h2>
@@ -521,7 +339,7 @@ Quick select stays tied to the built in drill chart. Search or convert lets you 
 <button onclick="calcTapSearch()">Check Tap Drill</button>
 <div class="result" id="tapResult"></div>
 <div class="note">
-Shows the typical drill, smallest and largest recommended drill, acceptable alternatives, and whether the drill you entered is in range for the selected tap style.
+Straight threads show a calculated drill range and alternatives. NPT shows a listed cutting-tap drill reference; NPT form-tap sizing is intentionally not estimated.
 </div>
 </div><div class="card">
 <h2>Tap Speeds and Feeds</h2>
@@ -543,14 +361,14 @@ Shows the typical drill, smallest and largest recommended drill, acceptable alte
 <div class="row3">
 <div>
 <label for="tapCalcStyle">Tap style</label>
-<select id="tapCalcStyle">
+<select id="tapCalcStyle" onchange="applyTapPreset()">
 <option value="cut">Cutting Tap</option>
 <option value="form">Form Tap</option>
 </select>
 </div>
 <div>
 <label for="tapToolMaterial">Tap tool material</label>
-<select id="tapToolMaterial">
+<select id="tapToolMaterial" onchange="applyTapPreset()">
 <option value="hss">HSS</option>
 <option value="carbide">Carbide</option>
 </select>
@@ -580,7 +398,19 @@ Shows the typical drill, smallest and largest recommended drill, acceptable alte
 <input id="tapCalcRpm" step="any" type="number" value=""/>
 </div>
 </div>
+<label for="tapSpeedBasis">Speed calculation basis</label>
+<select id="tapSpeedBasis" onchange="updateSpeedBasisUI('tap')">
+<option value="sfm">Use SFM to calculate RPM</option>
+<option value="rpm">Use RPM to calculate SFM</option>
+</select>
+<label for="tapPresetLevel">Shop baseline level</label>
+<select id="tapPresetLevel" onchange="applyTapPreset()">
+<option value="conservative">Low / conservative</option>
+<option selected="selected" value="standard">Standard starting point</option>
+<option value="upper">Upper baseline — verify setup</option>
+</select>
 <div class="quick">
+<button class="secondary" onclick="applyTapPreset()">Apply Shop Baseline</button>
 <button onclick="calcTapSpeedFeed()">Calculate</button>
 <button class="ghost" onclick="clearTapCalc()">Clear Variables</button>
 </div>
@@ -614,7 +444,7 @@ Shows the typical drill, smallest and largest recommended drill, acceptable alte
 </div>
 <div>
 <label for="tmToolDia">Thread mill diameter</label>
-<input id="tmToolDia" step="any" type="number" value="0.375"/>
+<input id="tmToolDia" step="any" type="number" value="0.1875"/>
 </div>
 </div>
 <div class="row3">
@@ -631,20 +461,32 @@ Shows the typical drill, smallest and largest recommended drill, acceptable alte
 <input id="tmDepth" step="any" type="number" value="0.500"/>
 </div>
 </div>
+<div class="row3">
+<div>
+<label for="tmFlutes">Cutting teeth or flutes</label>
+<input id="tmFlutes" min="1" step="1" type="number" value="3"/>
+</div>
+<div>
+<label for="tmLocation">Thread location</label>
+<select id="tmLocation">
+<option value="internal">Internal thread</option>
+<option value="external">External thread</option>
+</select>
+</div>
+<div>
+<label for="tmUnits">Tool diameter and depth units</label>
+<select id="tmUnits">
+<option value="inch">Inch</option>
+<option value="metric">Metric</option>
+</select>
+</div>
+</div>
 <button onclick="calcThreadMill()">Calculate Thread Mill</button>
 <div class="result" id="threadMillResult"></div>
 </div><div class="card">
 <h2>NPT Helper</h2>
 <label for="nptSize">NPT nominal size</label>
-<select id="nptSize">
-<option value="1/16">1/16</option>
-<option value="1/8">1/8</option>
-<option value="1/4">1/4</option>
-<option value="3/8">3/8</option>
-<option value="1/2">1/2</option>
-<option value="3/4">3/4</option>
-<option value="1">1</option>
-</select>
+<select id="nptSize"></select>
 <label for="nptTurns">Thread turns desired</label>
 <input id="nptTurns" step="any" type="number" value="4"/>
 <button onclick="calcNptHelper()">Calculate NPT Approximation</button>
@@ -742,6 +584,89 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 </div>
 <div class="result" id="helixPitchResult"></div>
 </div></div>
+<div class="sectionhead" id="advanced">Advanced Milling and Inspection Math</div>
+<div class="grid-auto">
+<div class="card">
+<h2>Circular Interpolation Feed</h2>
+<label for="arcLocation">Feature location</label>
+<select id="arcLocation">
+<option value="internal">Internal bore</option>
+<option value="external">External boss</option>
+</select>
+<div class="row2">
+<div><label for="arcFeatureDia">Feature diameter</label><input id="arcFeatureDia" step="any" type="number" value="2.000"/></div>
+<div><label for="arcToolDia">Tool diameter</label><input id="arcToolDia" step="any" type="number" value="0.500"/></div>
+</div>
+<label for="arcSurfaceFeed">Desired feed at cutting edge in IPM</label>
+<input id="arcSurfaceFeed" step="any" type="number" value="20.000"/>
+<button onclick="calcCircularInterpolation()">Calculate Centerline Feed</button>
+<div class="result" id="arcFeedResult"></div>
+<div class="note">Compensates feed for the cutter-centerline path. This is geometry math, not a controller code generator.</div>
+</div>
+<div class="card">
+<h2>Effective Cutting Diameter</h2>
+<label for="effectiveToolType">Tool type</label>
+<select id="effectiveToolType" onchange="toggleEffectiveToolType()">
+<option value="ball">Ball-nose tool</option>
+<option value="taper">Tapered tool</option>
+</select>
+<div class="row2">
+<div><label for="effectiveToolDia">Maximum tool diameter</label><input id="effectiveToolDia" step="any" type="number" value="0.500"/></div>
+<div><label for="effectiveAxialDepth">Axial cutting depth</label><input id="effectiveAxialDepth" step="any" type="number" value="0.050"/></div>
+</div>
+<div class="row2" id="effectiveTaperFields" style="display:none;">
+<div><label for="effectiveTipDia">Tip diameter</label><input id="effectiveTipDia" step="any" type="number" value="0.125"/></div>
+<div><label for="effectiveIncludedAngle">Included angle</label><input id="effectiveIncludedAngle" step="any" type="number" value="60"/></div>
+</div>
+<label for="effectiveRpm">RPM for effective SFM</label>
+<input id="effectiveRpm" step="any" type="number" value="3000"/>
+<button onclick="calcEffectiveDiameter()">Calculate Effective Diameter</button>
+<div class="result" id="effectiveDiameterResult"></div>
+</div>
+<div class="card">
+<h2>Scallop Height and Stepover</h2>
+<label for="scallopSolveFrom">Solve from</label>
+<select id="scallopSolveFrom" onchange="toggleScallopSource()">
+<option value="stepover">Entered stepover</option>
+<option value="height">Entered scallop height</option>
+</select>
+<label for="scallopBallDia">Ball diameter</label>
+<input id="scallopBallDia" step="any" type="number" value="0.500"/>
+<div class="row2">
+<div><label for="scallopStepover">Stepover</label><input id="scallopStepover" step="any" type="number" value="0.050"/></div>
+<div><label for="scallopHeight">Scallop height</label><input disabled id="scallopHeight" step="any" type="number" value=""/></div>
+</div>
+<button onclick="calcScallop()">Calculate Scallop Geometry</button>
+<div class="result" id="scallopResult"></div>
+</div>
+<div class="card">
+<h2>True Position</h2>
+<div class="row2">
+<div><label for="positionNominalX">Nominal X</label><input id="positionNominalX" step="any" type="number" value="0"/></div>
+<div><label for="positionActualX">Actual X</label><input id="positionActualX" step="any" type="number" value="0.003"/></div>
+</div>
+<div class="row2">
+<div><label for="positionNominalY">Nominal Y</label><input id="positionNominalY" step="any" type="number" value="0"/></div>
+<div><label for="positionActualY">Actual Y</label><input id="positionActualY" step="any" type="number" value="0.004"/></div>
+</div>
+<button onclick="calcTruePosition()">Calculate True Position</button>
+<div class="result" id="truePositionResult"></div>
+<div class="note">Reports diametrical true position from X and Y center deviations. Apply print datum and material-condition requirements separately.</div>
+</div>
+<div class="card">
+<h2>Bore Stock Planning</h2>
+<div class="row2">
+<div><label for="boreCurrentDia">Current bore diameter</label><input id="boreCurrentDia" step="any" type="number" value="1.000"/></div>
+<div><label for="boreFinishDia">Finish bore diameter</label><input id="boreFinishDia" step="any" type="number" value="1.500"/></div>
+</div>
+<div class="row2">
+<div><label for="boreMaxRadialDepth">Maximum radial depth per rough pass</label><input id="boreMaxRadialDepth" step="any" type="number" value="0.100"/></div>
+<div><label for="boreFinishAllowance">Finish allowance on diameter</label><input id="boreFinishAllowance" step="any" type="number" value="0.020"/></div>
+</div>
+<button onclick="calcBoreStockPlan()">Calculate Bore Plan</button>
+<div class="result" id="boreStockResult"></div>
+</div>
+</div>
 <div class="sectionhead" id="shopmath">Shop Math</div>
 <div class="grid3 compact-grid">
 <div class="card">
@@ -834,6 +759,12 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 </div>
 <div class="card">
 <h2>Circle Calculator</h2>
+<label for="circleSource">Calculate from</label>
+<select id="circleSource">
+<option value="diameter">Diameter</option>
+<option value="radius">Radius</option>
+<option value="circumference">Circumference</option>
+</select>
 <label for="circleDia">Diameter</label>
 <input id="circleDia" step="any" type="number" value="1.000"/>
 <label for="circleRad">Radius</label>
@@ -897,6 +828,15 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 <div class="grid2 compact-grid">
 <div class="card">
 <h2>Right Triangle Solver</h2>
+<label for="trigSolveFrom">Solve from</label>
+<select id="trigSolveFrom">
+<option value="a_b">Side A and Side B</option>
+<option value="a_h">Side A and Hypotenuse</option>
+<option value="b_h">Side B and Hypotenuse</option>
+<option value="angle_h">Angle A and Hypotenuse</option>
+<option value="angle_a">Angle A and Side A</option>
+<option value="angle_b">Angle A and Side B</option>
+</select>
 <div class="row2">
 <div>
 <label for="trigSideA">Side A</label>
@@ -957,6 +897,11 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 <tr><td>Distance</td><td>Distance = sqrt((X2 − X1)^2 + (Y2 − Y1)^2)</td><td>Point to point distance</td></tr>
 <tr><td>Helix</td><td>Pitch = circumference × tan(helix angle)</td><td>Helix pitch from angle</td></tr>
 <tr><td>Helix</td><td>Helix angle = atan(pitch / circumference)</td><td>Helix angle from pitch</td></tr>
+<tr><td>Circular milling</td><td>Centerline feed = surface feed × centerline dia / feature dia</td><td>Compensate internal or external circular-interpolation feed</td></tr>
+<tr><td>Ball nose</td><td>Effective dia = 2 × sqrt(depth × (tool dia − depth))</td><td>Effective cutting diameter below the ball radius</td></tr>
+<tr><td>Scallop</td><td>Height = radius − sqrt(radius² − (stepover / 2)²)</td><td>Theoretical ball-tool scallop height</td></tr>
+<tr><td>Inspection</td><td>True position = 2 × sqrt(ΔX² + ΔY²)</td><td>Diametrical true position from center deviations</td></tr>
+<tr><td>Bore planning</td><td>Radial stock = (finish dia − current dia) / 2</td><td>Divide rough stock into equal radial passes and preserve finish allowance</td></tr>
 <tr><td>Conversions</td><td>mm = inch × 25.4</td><td>Inch to metric conversion</td></tr>
 <tr><td>Conversions</td><td>inch = mm / 25.4</td><td>Metric to inch conversion</td></tr>
 </tbody>
@@ -964,1325 +909,30 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 </div>
 <div class="card">
 <h2>Material Presets</h2>
+<div class="scroll">
 <table>
 <thead>
 <tr>
 <th>Material</th>
+<th>ISO</th>
 <th>Description</th>
-<th>Start SFM</th>
-<th>HSS Drill Factor</th>
-<th>Carbide Drill Factor</th>
-<th>Endmill Factor</th>
+<th>HSS drill SFM</th>
+<th>Carbide drill SFM</th>
+<th>Carbide endmill SFM</th>
+<th>Indexable mill SFM</th>
+<th>Carbide turning SFM</th>
+<th>HSS tap SFM</th>
 </tr>
 </thead>
 <tbody id="materialBody"></tbody>
 </table>
+</div>
+<div class="note">Values are shown low / standard / upper. They are GR shop baselines, not manufacturer cutting data. ISO material groups follow the <a href="https://www.sandvik.coromant.com/en-us/knowledge/materials/workpiece-materials" rel="noopener noreferrer" target="_blank">Sandvik Coromant workpiece-material classification</a>.</div>
 </div></div>
 </div>
-<script>
-const materials = [
-{name:"Ductile Iron, Grade 65 45 12, ASTM A536",desc:"Common ductile iron shop material.",sfm:350,hssDrillFactor:0.010,carbideDrillFactor:0.021,endmillFactor:0.018},
-{name:"Gray Iron, Class 30, ASTM A48",desc:"Free machining cast iron.",sfm:400,hssDrillFactor:0.011,carbideDrillFactor:0.022,endmillFactor:0.020},
-{name:"Cast Iron, Class 30, ASTM A48",desc:"General cast iron fallback.",sfm:400,hssDrillFactor:0.011,carbideDrillFactor:0.022,endmillFactor:0.020},
-{name:"Ductile Iron, Austempered, ASTM A897, ADI Grade 200/155/1",desc:"Harder austempered ductile iron.",sfm:180,hssDrillFactor:0.007,carbideDrillFactor:0.014,endmillFactor:0.010},
-{name:"Stainless Steel, Grade CD4MCuN, ASTM A890",desc:"Tougher cast stainless family.",sfm:170,hssDrillFactor:0.006,carbideDrillFactor:0.013,endmillFactor:0.009},
-{name:"Aluminum Alloy, ASTM B26 Alloy SG70A, Condition T6, SAE 323",desc:"Shop aluminum casting alloy.",sfm:650,hssDrillFactor:0.012,carbideDrillFactor:0.024,endmillFactor:0.020},
-{name:"Generic Steel",desc:"General steel fallback.",sfm:250,hssDrillFactor:0.008,carbideDrillFactor:0.018,endmillFactor:0.014},
-{name:"Generic Stainless",desc:"General stainless fallback.",sfm:180,hssDrillFactor:0.006,carbideDrillFactor:0.014,endmillFactor:0.010},
-{name:"Generic Aluminum",desc:"General aluminum fallback.",sfm:700,hssDrillFactor:0.012,carbideDrillFactor:0.024,endmillFactor:0.020},
-{name:"Generic Cast Iron",desc:"General cast iron fallback.",sfm:400,hssDrillFactor:0.011,carbideDrillFactor:0.022,endmillFactor:0.020}
-];
-
-const UNC = [
-{thread:"1/4 20",major:0.250,pitch:20,tap:"7",tapDec:0.2010},
-{thread:"5/16 18",major:0.3125,pitch:18,tap:"F",tapDec:0.2570},
-{thread:"3/8 16",major:0.375,pitch:16,tap:"5/16",tapDec:0.3125},
-{thread:"7/16 14",major:0.4375,pitch:14,tap:"23/64",tapDec:0.3594},
-{thread:"1/2 13",major:0.500,pitch:13,tap:"27/64",tapDec:0.421875},
-{thread:"9/16 12",major:0.5625,pitch:12,tap:"31/64",tapDec:0.4844},
-{thread:"5/8 11",major:0.625,pitch:11,tap:"17/32",tapDec:0.53125},
-{thread:"3/4 10",major:0.750,pitch:10,tap:"21/32",tapDec:0.65625},
-{thread:"7/8 9",major:0.875,pitch:9,tap:"49/64",tapDec:0.765625},
-{thread:"1 8",major:1.000,pitch:8,tap:"7/8",tapDec:0.8750}
-];
-
-const UNF = [
-{thread:"1/4 28",major:0.250,pitch:28,tap:"3",tapDec:0.2130},
-{thread:"5/16 24",major:0.3125,pitch:24,tap:"I",tapDec:0.2720},
-{thread:"3/8 24",major:0.375,pitch:24,tap:"Q",tapDec:0.3320},
-{thread:"7/16 20",major:0.4375,pitch:20,tap:"25/64",tapDec:0.390625},
-{thread:"1/2 20",major:0.500,pitch:20,tap:"29/64",tapDec:0.453125},
-{thread:"9/16 18",major:0.5625,pitch:18,tap:"33/64",tapDec:0.515625},
-{thread:"5/8 18",major:0.625,pitch:18,tap:"37/64",tapDec:0.578125},
-{thread:"3/4 16",major:0.750,pitch:16,tap:"11/16",tapDec:0.6875},
-{thread:"7/8 14",major:0.875,pitch:14,tap:"13/16",tapDec:0.8125},
-{thread:"1 12",major:1.000,pitch:12,tap:"59/64",tapDec:0.921875}
-];
-
-const NPT = [
-{thread:"1/16 27 NPT",major:0.3125,pitch:27,tap:"Letter C",tapDec:0.2420},
-{thread:"1/8 27 NPT",major:0.405,pitch:27,tap:"Letter Q",tapDec:0.3320},
-{thread:"1/4 18 NPT",major:0.540,pitch:18,tap:"7/16",tapDec:0.4375},
-{thread:"3/8 18 NPT",major:0.675,pitch:18,tap:"37/64",tapDec:0.578125},
-{thread:"1/2 14 NPT",major:0.840,pitch:14,tap:"23/32",tapDec:0.71875},
-{thread:"3/4 14 NPT",major:1.050,pitch:14,tap:"59/64",tapDec:0.921875},
-{thread:"1 11.5 NPT",major:1.315,pitch:11.5,tap:"1 5/32",tapDec:1.15625}
-];
-
-const METRIC = [
-{thread:"M5 x 0.8",major:5.0,pitch:0.8,tap:"4.2 mm",tapDec:4.2/25.4},
-{thread:"M6 x 1.0",major:6.0,pitch:1.0,tap:"5.0 mm",tapDec:5.0/25.4},
-{thread:"M8 x 1.25",major:8.0,pitch:1.25,tap:"6.8 mm",tapDec:6.8/25.4},
-{thread:"M10 x 1.5",major:10.0,pitch:1.5,tap:"8.5 mm",tapDec:8.5/25.4},
-{thread:"M12 x 1.75",major:12.0,pitch:1.75,tap:"10.2 mm",tapDec:10.2/25.4},
-{thread:"M16 x 2.0",major:16.0,pitch:2.0,tap:"14.0 mm",tapDec:14.0/25.4}
-];
-
-const nptPitchMap = {
-"1/16":27,
-"1/8":27,
-"1/4":18,
-"3/8":18,
-"1/2":14,
-"3/4":14,
-"1":11.5
-};
-
-const numberDrills = [
-["#80",0.0135],["#79",0.0145],["#78",0.0160],["#77",0.0180],["#76",0.0200],["#75",0.0210],["#74",0.0225],["#73",0.0240],["#72",0.0250],["#71",0.0260],["#70",0.0280],["#69",0.0292],["#68",0.0310],["#67",0.0320],["#66",0.0330],["#65",0.0350],["#64",0.0360],["#63",0.0370],["#62",0.0380],["#61",0.0390],["#60",0.0400],["#59",0.0410],["#58",0.0420],["#57",0.0430],["#56",0.0465],["#55",0.0520],["#54",0.0550],["#53",0.0595],["#52",0.0635],["#51",0.0670],["#50",0.0700],["#49",0.0730],["#48",0.0760],["#47",0.0785],["#46",0.0810],["#45",0.0820],["#44",0.0860],["#43",0.0890],["#42",0.0935],["#41",0.0960],["#40",0.0980],["#39",0.0995],["#38",0.1015],["#37",0.1040],["#36",0.1065],["#35",0.1100],["#34",0.1110],["#33",0.1130],["#32",0.1160],["#31",0.1200],["#30",0.1285],["#29",0.1360],["#28",0.1405],["#27",0.1440],["#26",0.1470],["#25",0.1495],["#24",0.1520],["#23",0.1540],["#22",0.1570],["#21",0.1590],["#20",0.1610],["#19",0.1660],["#18",0.1695],["#17",0.1730],["#16",0.1770],["#15",0.1800],["#14",0.1820],["#13",0.1850],["#12",0.1890],["#11",0.1910],["#10",0.1935],["#9",0.1960],["#8",0.1990],["#7",0.2010],["#6",0.2040],["#5",0.2055],["#4",0.2090],["#3",0.2130],["#2",0.2210],["#1",0.2280]
-];
-
-const letterDrills = [
-["A",0.2340],["B",0.2380],["C",0.2420],["D",0.2460],["E",0.2500],["F",0.2570],["G",0.2610],["H",0.2660],["I",0.2720],["J",0.2770],["K",0.2810],["L",0.2900],["M",0.2950],["N",0.3020],["O",0.3160],["P",0.3230],["Q",0.3320],["R",0.3390],["S",0.3480],["T",0.3580],["U",0.3680],["V",0.3770],["W",0.3860],["X",0.3970],["Y",0.4040],["Z",0.4130]
-];
-
-const metricDrills = [1,1.5,2,2.5,3,3.2,3.3,3.5,4,4.1,4.2,4.5,4.8,5,5.1,5.5,6,6.2,6.5,6.8,7,7.5,8,8.5,9,9.5,10,10.2,10.5,11,11.5,12,12.5,13,14,15,16,18,20,22,24,25].map(mm=>[""+mm+" mm",mm/25.4]);
-
-function gid(id){ return document.getElementById(id); }
-function num(id){ return parseFloat(gid(id).value) || 0; }
-function round(v,d=4){ if(!isFinite(v)) return "0"; return Number(v).toFixed(d).replace(/\.?0+$/,""); }
-function gcd(a,b){ return b ? gcd(b, a % b) : a; }
-function decimalToFraction64(x){
-const neg = x < 0 ? "-" : "";
-x = Math.abs(x);
-const whole = Math.floor(x);
-const frac = x - whole;
-const denom = 64;
-let nume = Math.round(frac * denom);
-let w = whole;
-if(nume === denom){ w += 1; nume = 0; }
-if(nume === 0) return neg + String(w);
-const g = gcd(nume, denom);
-nume /= g;
-const den = denom / g;
-return neg + (w ? w + " " : "") + nume + "/" + den;
-}
-function parseFraction(text){
-text = String(text).trim();
-if(text.includes(" ")){
-const parts = text.split(" ");
-return (parseFloat(parts[0]) || 0) + parseFraction(parts[1] || "0");
-}
-if(text.includes("/")){
-const parts = text.split("/");
-const a = parseFloat(parts[0]) || 0;
-const b = parseFloat(parts[1]) || 1;
-return b ? a / b : 0;
-}
-return parseFloat(text) || 0;
-}
-
-function setSelectSafe(id, idx){
-const el = gid(id);
-if(!el || !el.options || !el.options.length) return;
-const safe = Math.min(Math.max(parseInt(idx || 0,10), 0), el.options.length - 1);
-el.selectedIndex = safe;
-el.value = el.options[safe].value;
-}
-function toolDiaInches(){ const d = num("toolDia"); return gid("units").value === "metric" ? d/25.4 : d; }
-function stepoverInches(){ const s = num("stepover"); return gid("units").value === "metric" ? s/25.4 : s; }
-function peckDiaInches(){ const d = num("peckDia"); return gid("peckUnits").value === "metric" ? d/25.4 : d; }
-function holeDepthInches(){ const d = num("holeDepth"); return gid("peckUnits").value === "metric" ? d/25.4 : d; }
-function turnDiaInches(){ const d = num("turnDia"); return gid("turnUnits").value === "metric" ? d/25.4 : d; }
-
-function buildFractionalDrills(){
-const arr = [];
-for(let n=1;n<64;n++){
-const dec = n/64;
-if(dec < 1) arr.push([decimalToFraction64(dec), dec]);
-}
-return arr;
-}
-const fractionalDrills = buildFractionalDrills();
-const allDrills = [...fractionalDrills, ...numberDrills, ...letterDrills, ...metricDrills]
-.map(d => ({name:d[0], dec:d[1]}))
-.filter(d => d.dec < 1.0001)
-.sort((a,b)=>a.dec-b.dec);
-
-function populateMaterials(){
-const sel = gid("material");
-const turnSel = gid("turnMaterial");
-sel.innerHTML = "";
-turnSel.innerHTML = "";
-materials.forEach((m,i)=>{
-const o = document.createElement("option");
-o.value = i;
-o.textContent = m.name;
-sel.appendChild(o);
-const o2 = document.createElement("option");
-o2.value = i;
-o2.textContent = m.name;
-turnSel.appendChild(o2);
-});
-const body = gid("materialBody");
-body.innerHTML = "";
-materials.forEach(m=>{
-const tr = document.createElement("tr");
-tr.innerHTML =
-"<td>"+m.name+"</td>" +
-"<td>"+m.desc+"</td>" +
-"<td>"+m.sfm+"</td>" +
-"<td>"+m.hssDrillFactor+"</td>" +
-"<td>"+m.carbideDrillFactor+"</td>" +
-"<td>"+m.endmillFactor+"</td>";
-body.appendChild(tr);
-});
-updatePresetPreview();
-updateTurningPresetPreview();
-}
-
-function toggleCalcType(){
-const type = gid("calcType").value;
-const isDrill = type === "drill";
-const isEndmill = type === "endmill";
-const isFace45 = type === "face45";
-const isShoulder90 = type === "shoulder90";
-
-gid("drillBox").style.display = isDrill ? "" : "none";
-gid("millingBox").style.display = isDrill ? "none" : "";
-gid("drillToolTypeBox").style.display = isDrill ? "" : "none";
-gid("stepoverWrap").style.display = isEndmill ? "" : "none";
-
-if(isDrill){
- gid("flutes").value = "2";
- gid("fpt").value = "";
- gid("stepover").value = "";
- gid("ipr").value = gid("ipr").value || "0.004";
-}
-if(isEndmill){
- gid("fptLabel").textContent = "FPT or IPT";
- if(!gid("flutes").value || Number(gid("flutes").value) > 8) gid("flutes").value = "4";
- if(!gid("fpt").value || Number(gid("fpt").value) > 0.005) gid("fpt").value = "0.0025";
- if(!gid("stepover").value) gid("stepover").value = round(toolDiaInches() * 0.25,4);
-}
-if(isFace45){
- gid("fptLabel").textContent = "FPT";
- if(!gid("flutes").value || Number(gid("flutes").value) < 3 || Number(gid("flutes").value) > 12) gid("flutes").value = "6";
- if(!gid("fpt").value || Number(gid("fpt").value) > 0.004) gid("fpt").value = "0.0025";
- gid("stepover").value = "";
-}
-if(isShoulder90){
- gid("fptLabel").textContent = "FPT";
- if(!gid("flutes").value || Number(gid("flutes").value) > 8) gid("flutes").value = "4";
- if(!gid("fpt").value || Number(gid("fpt").value) > 0.004) gid("fpt").value = "0.0025";
- gid("stepover").value = "";
-}
-updatePresetPreview();
-}
-
-function updatePresetPreview(){
-const m = materials[parseInt(gid("material").value || 0,10)];
-const type = gid("calcType").value;
-let text = "Material: " + m.name + "<br>Starting SFM: " + m.sfm + "<br>";
-if(type === "drill"){
-text += gid("drillToolType").value === "hss"
-? "Estimated drill IPR = HSS factor × sqrt(diameter in inches)"
-: "Estimated drill IPR = carbide factor × sqrt(diameter in inches)";
-}else if(type === "endmill"){
-text += "Endmill mode uses radial stepover to show chip thinning when stepover is under 50 percent of cutter diameter.";
-}else if(type === "face45"){
-text += "45 degree face mill mode shows programmed feed and actual chip thickness at the lead angle. Radial stepover is not used here.";
-}else{
-text += "90 degree shoulder mill mode shows programmed feed at the entered FPT. Radial stepover is not used here.";
-}
-gid("presetPreview").innerHTML = text;
-}
-
-function applyPreset(){
-const m = materials[parseInt(gid("material").value || 0,10)];
-const d = toolDiaInches();
-const type = gid("calcType").value;
-gid("sfm").value = m.sfm;
-gid("rpm").value = "";
-if(type === "drill"){
- gid("flutes").value = 2;
- const factor = gid("drillToolType").value === "hss" ? m.hssDrillFactor : m.carbideDrillFactor;
- if(d > 0) gid("ipr").value = round(factor * Math.sqrt(d), 4);
-}else if(type === "endmill"){
- gid("flutes").value = d <= 0.375 ? 4 : 5;
- if(d > 0) gid("fpt").value = round(Math.min(0.004, Math.max(0.0012, m.endmillFactor * Math.sqrt(d) * 0.45)), 4);
- if(d > 0) gid("stepover").value = round(d * 0.25,4);
-}else if(type === "face45"){
- gid("flutes").value = d < 1 ? 4 : 6;
- if(d > 0) gid("fpt").value = round(Math.min(0.0035, Math.max(0.0015, m.endmillFactor * Math.sqrt(d) * 0.35)), 4);
- gid("stepover").value = "";
-}else{
- gid("flutes").value = d <= 0.5 ? 4 : 5;
- if(d > 0) gid("fpt").value = round(Math.min(0.003, Math.max(0.001, m.endmillFactor * Math.sqrt(d) * 0.30)), 4);
- gid("stepover").value = "";
-}
-calcMain();
-}
-
-function calcMain(){
-const d = toolDiaInches();
-const sfmInput = num("sfm");
-const rpmInput = num("rpm");
-const flutes = num("flutes");
-const type = gid("calcType").value;
-let out = "";
-let warnings = [];
-
-if(d <= 0){
- gid("mainResult").innerHTML = "Enter a valid tool diameter.";
- return;
-}
-
-let rpm = rpmInput;
-let sfm = sfmInput;
-
-if(sfm > 0 && rpm <= 0){
- rpm = (sfm * 3.82) / d;
- gid("rpm").value = round(rpm,0);
-}else if(rpm > 0 && sfm <= 0){
- sfm = (rpm * d) / 3.82;
- gid("sfm").value = round(sfm,1);
-}else if(rpm > 0 && sfm > 0){
- const solvedRpm = (sfm * 3.82) / d;
- const solvedSfm = (rpm * d) / 3.82;
- out += "RPM from entered SFM: " + round(solvedRpm,0) + "<br>";
- out += "SFM from entered RPM: " + round(solvedSfm,1) + "<br>";
- if(Math.abs(solvedRpm - rpm) > Math.max(25, solvedRpm * 0.03)){
-  warnings.push("Entered RPM and SFM do not match this tool diameter.");
- }
-}else{
- gid("mainResult").innerHTML = "Enter tool diameter and either SFM or RPM.";
- return;
-}
-
-if(!(rpmInput > 0 && sfmInput > 0)){
- out += "RPM: " + round(rpm,0) + "<br>";
- out += "SFM: " + round(sfm,1) + "<br>";
-}
-
-if(type === "drill"){
- const ipr = num("ipr");
- if(ipr <= 0 || rpm <= 0){
-  gid("mainResult").innerHTML = out + "Enter IPR to calculate feed.";
-  return;
- }
- const fpt = flutes ? ipr / flutes : 0;
- const ipm = rpm * ipr;
- out += "FPT from IPR: " + round(fpt,5) + "<br>";
- out += "IPM from RPM × IPR: " + round(ipm,4);
-}
-else if(type === "endmill"){
- const fpt = num("fpt");
- const stepover = stepoverInches();
- if(fpt <= 0 || flutes <= 0 || rpm <= 0){
-  gid("mainResult").innerHTML = out + "Enter FPT and flutes to calculate feed.";
-  return;
- }
- if(stepover <= 0){
-  gid("mainResult").innerHTML = out + "Enter radial stepover for endmill mode.";
-  return;
- }
- const ratio = stepover / d;
- let chipThin = 1;
- if(ratio > 0 && ratio < 0.5){
-  const inside = 1 - Math.pow(1 - 2 * ratio, 2);
-  chipThin = inside > 0 ? 1 / Math.sqrt(inside) : 1;
- }
- const adjustedFpt = fpt * chipThin;
- const programmedIpm = rpm * flutes * fpt;
- const adjustedIpm = rpm * flutes * adjustedFpt;
- out += "Stepover ratio: " + round(ratio,4) + "<br>";
- out += "Chip thinning factor: " + round(chipThin,4) + "<br>";
- out += "Programmed FPT: " + round(fpt,5) + "<br>";
- out += "Adjusted FPT for chip thinning: " + round(adjustedFpt,5) + "<br>";
- out += "Programmed IPM: " + round(programmedIpm,4) + "<br>";
- out += "Adjusted IPM at same RPM: " + round(adjustedIpm,4);
-}
-else if(type === "face45"){
- const fpt = num("fpt");
- if(fpt <= 0 || flutes <= 0 || rpm <= 0){
-  gid("mainResult").innerHTML = out + "Enter FPT and teeth to calculate feed.";
-  return;
- }
- if(d < 0.75){
-  warnings.push("Entered diameter looks too small for a typical face mill.");
- }
- if(flutes > 8 && d < 1.5){
-  warnings.push("Tooth count looks high for this face mill diameter.");
- }
- const ipm = rpm * flutes * fpt;
- const actualChip = fpt * Math.sin(Math.PI/4);
- const multiplier = actualChip ? fpt / actualChip : 1;
- out += "Programmed FPT: " + round(fpt,5) + "<br>";
- out += "Programmed IPM: " + round(ipm,4) + "<br>";
- out += "Actual chip thickness at 45 degrees: " + round(actualChip,5) + "<br>";
- out += "Feed advantage multiplier versus 90 degree: " + round(multiplier,4);
-}
-else{
- const fpt = num("fpt");
- if(fpt <= 0 || flutes <= 0 || rpm <= 0){
-  gid("mainResult").innerHTML = out + "Enter FPT and teeth to calculate feed.";
-  return;
- }
- if(flutes > 8 && d < 1){
-  warnings.push("Tooth count looks high for this shoulder mill diameter.");
- }
- const ipm = rpm * flutes * fpt;
- out += "Programmed FPT: " + round(fpt,5) + "<br>";
- out += "Programmed IPM: " + round(ipm,4) + "<br>";
- out += "Actual chip thickness at 90 degrees: " + round(fpt,5) + "<br>";
- out += "90 degree shoulder cutters are best when wall straightness matters.";
-}
-
-if(warnings.length){
- out = "Warning: " + warnings.join(" ") + "<br><br>" + out;
-}
-gid("mainResult").innerHTML = out;
-}
-
-function updateTurningPresetPreview(){
-const m = materials[parseInt(gid("turnMaterial").value || 0,10)];
-const type = gid("turnType").value;
-let text = "Material: " + m.name + "<br>Starting SFM: " + m.sfm + "<br>";
-if(type === "turn") text += "OD or face turning uses IPR and solves the missing RPM or SFM from diameter.";
-else if(type === "bore") text += "ID boring uses the same speed math as turning, with a slightly lighter preset feed.";
-else if(type === "groove") text += "Grooving uses the same speed math, with a lighter preset feed to give a safer starting point.";
-else text += "Lathe drill mode uses IPR and solves the missing RPM or SFM from drill diameter.";
-gid("turnPresetPreview").innerHTML = text;
-}
-
-function applyTurningPreset(){
-const m = materials[parseInt(gid("turnMaterial").value || 0,10)];
-const d = turnDiaInches();
-const type = gid("turnType").value;
-let sfmFactor = 1;
-let iprFactor = 1;
-if(type === "bore"){
- sfmFactor = 0.9;
- iprFactor = 0.85;
-}else if(type === "groove"){
- sfmFactor = 0.75;
- iprFactor = 0.65;
-}else if(type === "drill"){
- sfmFactor = 0.8;
- iprFactor = 0.7;
-}
-gid("turnSfm").value = round(m.sfm * sfmFactor,0);
-gid("turnRpm").value = "";
-if(d > 0){
- let baseIpr = Math.max(0.0025, Math.min(0.018, 0.0075 * Math.sqrt(d)));
- gid("turnIpr").value = round(baseIpr * iprFactor,4);
-}
-calcTurningMain();
-updateTurningPresetPreview();
-}
-
-function clearMillingCalc(){
-gid("calcType").value = "endmill";
-gid("units").value = "inch";
-gid("drillToolType").value = "carbide";
-gid("material").value = "0";
-gid("toolDia").value = "";
-gid("sfm").value = "";
-gid("rpm").value = "";
-gid("flutes").value = "";
-gid("ipr").value = "";
-gid("fpt").value = "";
-gid("stepover").value = "";
-gid("mainResult").innerHTML = "";
-toggleCalcType();
-updatePresetPreview();
-}
-
-function clearTurningCalc(){
-gid("turnType").value = "turn";
-gid("turnUnits").value = "inch";
-gid("turnMaterial").value = "0";
-gid("turnDia").value = "";
-gid("turnSfm").value = "";
-gid("turnRpm").value = "";
-gid("turnIpr").value = "";
-gid("turnResult").innerHTML = "";
-updateTurningPresetPreview();
-}
-
-function calcTurningMain(){
-const d = turnDiaInches();
-const sfmInput = num("turnSfm");
-const rpmInput = num("turnRpm");
-const ipr = num("turnIpr");
-const type = gid("turnType").value;
-let out = "";
-let warnings = [];
-if(d <= 0){
- gid("turnResult").innerHTML = "Enter a valid turning diameter.";
- return;
-}
-let rpm = rpmInput;
-let sfm = sfmInput;
-if(sfm > 0 && rpm <= 0){
- rpm = (sfm * 3.82) / d;
- gid("turnRpm").value = round(rpm,0);
-}else if(rpm > 0 && sfm <= 0){
- sfm = (rpm * d) / 3.82;
- gid("turnSfm").value = round(sfm,1);
-}else if(rpm > 0 && sfm > 0){
- const solvedRpm = (sfm * 3.82) / d;
- const solvedSfm = (rpm * d) / 3.82;
- out += "RPM from entered SFM: " + round(solvedRpm,0) + "<br>";
- out += "SFM from entered RPM: " + round(solvedSfm,1) + "<br>";
- if(Math.abs(solvedRpm - rpm) > Math.max(25, solvedRpm * 0.03)) warnings.push("Entered RPM and SFM do not match this diameter.");
-}else{
- gid("turnResult").innerHTML = "Enter turning diameter and either SFM or RPM.";
- return;
-}
-if(!(rpmInput > 0 && sfmInput > 0)){
- out += "RPM: " + round(rpm,0) + "<br>";
- out += "SFM: " + round(sfm,1) + "<br>";
-}
-if(ipr <= 0 || rpm <= 0){
- gid("turnResult").innerHTML = out + "Enter IPR to calculate feed.";
- return;
-}
-const ipm = rpm * ipr;
-out += "IPR: " + round(ipr,4) + "<br>";
-out += "IPM from RPM × IPR: " + round(ipm,4) + "<br>";
-if(type === "turn") out += "Operation: OD or face turning";
-else if(type === "bore") out += "Operation: ID boring";
-else if(type === "groove") out += "Operation: Grooving";
-else out += "Operation: Drilling in lathe";
-if(warnings.length) out = "Warning: " + warnings.join(" ") + "<br><br>" + out;
-gid("turnResult").innerHTML = out;
-}
-
-function populateDrillTable(){
-const sel = gid("drillQuick");
-if(!sel) return;
-sel.innerHTML = "";
-allDrills.forEach((d,i)=>{
-const o = document.createElement("option");
-o.value = String(i);
-o.textContent = d.name;
-sel.appendChild(o);
-});
-sel.selectedIndex = 0;
-showQuickDrill();
-}
-
-function normalizeDrillSearchText(text){
-return String(text || "").trim().toLowerCase();
-}
-
-function findNamedDrill(text){
-const q = normalizeDrillSearchText(text);
-return allDrills.find(d => normalizeDrillSearchText(d.name) === q) || null;
-}
-
-function parseDrillInputToInches(text){
-const raw = String(text || "").trim();
-if(!raw) return null;
-const named = findNamedDrill(raw);
-if(named) return {name:named.name, dec:named.dec, source:"chart"};
-
-let q = raw.toLowerCase().replace(/ø/g,"").trim();
-q = q.replace(/\s+/g," ");
-
-if(/mm$/.test(q) || q.includes(" mm")){
-const mm = parseFloat(q.replace("mm","").trim());
-if(isFinite(mm) && mm > 0) return {name:raw, dec:mm/25.4, source:"metric"};
-}
-if(/in$/.test(q) || q.includes(" inch") || q.includes(" inches")){
-const inches = parseFloat(q.replace("inches","").replace("inch","").replace("in","").trim());
-if(isFinite(inches) && inches > 0) return {name:raw, dec:inches, source:"inch"};
-}
-if(q.includes("/")){
-const frac = parseFraction(q);
-if(isFinite(frac) && frac > 0) return {name:raw, dec:frac, source:"fraction"};
-}
-const val = parseFloat(q);
-if(isFinite(val) && val > 0){
-if(val >= 1.0){
-return {name:raw, dec:val/25.4, source:"metric-number"};
-}
-return {name:raw, dec:val, source:"decimal"};
-}
-return null;
-}
-
-function calculateDrillSearch(){
-const raw = gid("drillSearch").value;
-const result = gid("drillSearchResult");
-const parsed = parseDrillInputToInches(raw);
-if(!raw.trim()){
-result.innerHTML = "Enter a drill size to convert or search.";
-return;
-}
-if(!parsed){
-result.innerHTML = "Could not read that size. Try formats like 3/16, #7, A, 10.2 mm, or .257.";
-return;
-}
-const nearest = allDrills.reduce((best,d)=>{
-return Math.abs(d.dec - parsed.dec) < Math.abs(best.dec - parsed.dec) ? d : best;
-}, allDrills[0]);
-
-result.innerHTML =
-"Entered size: " + parsed.name + "<br>" +
-"Decimal inch: " + round(parsed.dec,4) + "<br>" +
-"Millimeters: " + round(parsed.dec*25.4,3) + "<br>" +
-"Nearest listed drill: " + nearest.name + " (" + round(nearest.dec,4) + " inch, " + round(nearest.dec*25.4,3) + " mm)";
-}
-
-function showQuickDrill(){
-const idx = parseInt(gid("drillQuick").value || 0,10);
-const d = allDrills[idx] || allDrills[0];
-gid("drillQuickResult").innerHTML =
-"Drill size: " + d.name + "<br>" +
-"Decimal inch: " + round(d.dec,4) + "<br>" +
-"Millimeters: " + round(d.dec*25.4,3);
-}
-
-function calcPointDepth(){
-const dia = num("pointDia");
-const angle = num("pointAngle");
-const half = (angle/2) * Math.PI / 180;
-const depth = half ? (dia/2) / Math.tan(half) : 0;
-gid("pointDepthResult").innerHTML =
-"Approximate drill point depth: " + round(depth,5) + "<br>" +
-"This is useful when you need total hole depth to a full diameter or breakthrough depth planning.";
-}
-
-function calcPeck(){
-const dia = peckDiaInches();
-const depth = holeDepthInches();
-const material = gid("peckMaterial").value;
-if(dia <= 0){
-gid("peckResult").innerHTML = "Enter a valid drill diameter";
-return;
-}
-const ratio = depth / dia;
-let peck = 0;
-let note = "";
-if(ratio <= 3){
-peck = 0;
-note = material === "cast" ? "Usually no peck needed under 3xD in cast iron" : "Usually no peck or very light chip break under 3xD";
-}else if(ratio <= 5){
-peck = dia * 0.5;
-note = "Moderate peck range";
-}else if(ratio <= 8){
-peck = dia * 0.3;
-note = "Deeper hole. Use smaller pecks";
-}else{
-peck = dia * 0.2;
-note = "Deep hole. Prefer brand data and better chip evacuation";
-}
-const showPeck = gid("peckUnits").value === "metric" ? peck * 25.4 : peck;
-gid("peckResult").innerHTML =
-"Depth to diameter ratio: " + round(ratio,2) + "<br>" +
-"Suggested peck depth: " + round(showPeck,4) + "<br>" +
-note;
-}
-
-function currentThreadArray(){
-const type = gid("threadType").value;
-if(type === "UNC") return UNC;
-if(type === "UNF") return UNF;
-if(type === "NPT") return NPT;
-return METRIC;
-}
-
-function currentThreadArrayFromType(type){
-if(type === "UNC") return UNC;
-if(type === "UNF") return UNF;
-if(type === "NPT") return NPT;
-return METRIC;
-}
-
-function loadThreadChart(){
-const arr = currentThreadArray();
-const sel = gid("threadSelect");
-if(!sel) return;
-sel.innerHTML = "";
-arr.forEach((t,i)=>{
-const o = document.createElement("option");
-o.value = String(i);
-o.textContent = t.thread;
-sel.appendChild(o);
-});
-sel.selectedIndex = 0;
-syncThreadToolsFromTap();
-calcTapSearch();
-}
-
-function loadTapCalcThreadChart(){
-const type = gid("tapCalcThreadType").value;
-const arr = currentThreadArrayFromType(type);
-const sel = gid("tapCalcSelect");
-if(!sel) return;
-sel.innerHTML = "";
-arr.forEach((t,i)=>{
-const o = document.createElement("option");
-o.value = String(i);
-o.textContent = t.thread;
-sel.appendChild(o);
-});
-sel.selectedIndex = 0;
-applyTapCalcSelect();
-}
-
-function applyTapCalcSelect(){
-const type = gid("tapCalcThreadType").value;
-const arr = currentThreadArrayFromType(type);
-const t = arr[parseInt(gid("tapCalcSelect").value || 0,10)] || arr[0];
-if(!t) return;
-gid("tapCalcMajor").value = t.major;
-gid("tapCalcPitch").value = t.pitch;
-calcTapSpeedFeed();
-}
-
-function loadThreadMillChart(){
-const type = gid("tmThreadType").value;
-const arr = currentThreadArrayFromType(type);
-const sel = gid("tmSelect");
-if(!sel) return;
-sel.innerHTML = "";
-arr.forEach((t,i)=>{
-const o = document.createElement("option");
-o.value = String(i);
-o.textContent = t.thread;
-sel.appendChild(o);
-});
-sel.selectedIndex = 0;
-applyThreadMillSelect();
-}
-
-function applyThreadMillSelect(){
-const type = gid("tmThreadType").value;
-const arr = currentThreadArrayFromType(type);
-const t = arr[parseInt(gid("tmSelect").value || 0,10)] || arr[0];
-if(!t) return;
-gid("tmMajor").value = t.major;
-gid("tmPitch").value = t.pitch;
-calcThreadMill();
-}
-
-function syncThreadToolsFromTap(){
-const type = gid("threadType").value;
-const idx = gid("threadSelect").value || "0";
-if(gid("tapCalcThreadType")) gid("tapCalcThreadType").value = type;
-if(gid("tmThreadType")) gid("tmThreadType").value = type;
-loadTapCalcThreadChart();
-loadThreadMillChart();
-if(gid("tapCalcSelect") && gid("tapCalcSelect").options.length){
- const maxIdx = gid("tapCalcSelect").options.length - 1;
- gid("tapCalcSelect").value = String(Math.min(parseInt(idx || 0,10), maxIdx));
- applyTapCalcSelect();
-}
-if(gid("tmSelect") && gid("tmSelect").options.length){
- const maxIdx = gid("tmSelect").options.length - 1;
- gid("tmSelect").value = String(Math.min(parseInt(idx || 0,10), maxIdx));
- applyThreadMillSelect();
-}
-}
-
-function nearestDrill(dec){
-let best = allDrills[0];
-let bestDiff = Math.abs(best.dec - dec);
-allDrills.forEach(d=>{
-const diff = Math.abs(d.dec - dec);
-if(diff < bestDiff){ best = d; bestDiff = diff; }
-});
-return best;
-}
-
-function nearestDrillName(dec){
-return nearestDrill(dec).name;
-}
-
-function drillAlternativesInRange(minDec,maxDec,preferredDec){
-const arr = allDrills.filter(d => d.dec >= minDec - 0.00001 && d.dec <= maxDec + 0.00001);
-arr.sort((a,b)=>Math.abs(a.dec - preferredDec) - Math.abs(b.dec - preferredDec));
-const unique = [];
-arr.forEach(d=>{
-if(!unique.find(x=>x.name===d.name)) unique.push(d);
-});
-return unique.slice(0,6);
-}
-
-function tapDrillRange(threadType, t, tapStyle){
-if(threadType === "METRIC"){
-const typicalPct = tapStyle === "form" ? 0.55 : 0.75;
-const minPct = tapStyle === "form" ? 0.45 : 0.65;
-const maxPct = tapStyle === "form" ? 0.65 : 0.80;
-const typicalDec = (t.major - (1.299038 * t.pitch * typicalPct)) / 25.4;
-const minDec = (t.major - (1.299038 * t.pitch * maxPct)) / 25.4;
-const maxDec = (t.major - (1.299038 * t.pitch * minPct)) / 25.4;
-return {typicalDec, minDec, maxDec, note: tapStyle === "form" ? "Form tap drill sizes are larger than cutting tap sizes." : "Cutting tap range shown is based on common thread percent values."};
-}
-if(threadType === "NPT"){
-const standard = nearestDrill(t.tapDec);
-const idx = allDrills.findIndex(d=>d.name === standard.name);
-const shift = tapStyle === "form" ? 1 : 0;
-const typical = allDrills[Math.min(Math.max(idx + shift, 0), allDrills.length - 1)];
-const minObj = allDrills[Math.min(Math.max(idx + (tapStyle === "form" ? 0 : -1), 0), allDrills.length - 1)];
-const maxObj = allDrills[Math.min(Math.max(idx + (tapStyle === "form" ? 2 : 1), 0), allDrills.length - 1)];
-return {typicalDec: typical.dec, minDec: minObj.dec, maxDec: maxObj.dec, note: tapStyle === "form" ? "NPT form tap drill range is an approximation based on nearby larger standard drills." : "NPT cutting tap range is based on the listed chart drill and nearby common sizes."};
-}
-const pitchIn = t.pitch ? 1 / t.pitch : 0;
-const typicalPct = tapStyle === "form" ? 0.55 : 0.75;
-const minPct = tapStyle === "form" ? 0.45 : 0.65;
-const maxPct = tapStyle === "form" ? 0.65 : 0.80;
-const typicalDec = t.major - (1.299038 * pitchIn * typicalPct);
-const minDec = t.major - (1.299038 * pitchIn * maxPct);
-const maxDec = t.major - (1.299038 * pitchIn * minPct);
-return {typicalDec, minDec, maxDec, note: tapStyle === "form" ? "Form tap drill sizes are larger than cutting tap sizes." : "Cutting tap range shown is based on common thread percent values."};
-}
-
-function calcTapSearch(){
-const idx = parseInt(gid("threadSelect").value || 0,10);
-const arr = currentThreadArray();
-const type = gid("threadType").value;
-const tapStyle = gid("tapStyle").value;
-const t = arr[idx] || arr[0];
-if(!t){
- gid("tapResult").innerHTML = "No matching thread found.";
- return;
-}
-const range = tapDrillRange(type, t, tapStyle);
-const typicalDrill = nearestDrill(range.typicalDec);
-const minDrill = nearestDrill(range.minDec);
-const maxDrill = nearestDrill(range.maxDec);
-const alts = drillAlternativesInRange(range.minDec, range.maxDec, typicalDrill.dec);
-let out = "";
-out += "Thread: " + t.thread + "<br>";
-out += "Tap style: " + (tapStyle === "form" ? "Form tap" : "Cutting tap") + "<br>";
-out += "Typical tap drill: " + typicalDrill.name + " (" + round(typicalDrill.dec,4) + " inch, " + round(typicalDrill.dec*25.4,3) + " mm)<br>";
-out += "Smallest recommended drill: " + minDrill.name + " (" + round(minDrill.dec,4) + " inch, " + round(minDrill.dec*25.4,3) + " mm)<br>";
-out += "Largest recommended drill: " + maxDrill.name + " (" + round(maxDrill.dec,4) + " inch, " + round(maxDrill.dec*25.4,3) + " mm)<br>";
-out += "Acceptable alternatives: " + (alts.length ? alts.map(d=>d.name + " (" + round(d.dec,4) + ")").join(", ") : "None found in chart range") + "<br>";
-const raw = gid("candidateDrill").value.trim();
-if(raw){
- const parsed = parseDrillInputToInches(raw);
- if(parsed){
-  const inRange = parsed.dec >= range.minDec - 0.00001 && parsed.dec <= range.maxDec + 0.00001;
-  const relation = parsed.dec < range.minDec ? "smaller than recommended" : parsed.dec > range.maxDec ? "larger than recommended" : "within recommended range";
-  out += "Checked drill: " + raw + " = " + round(parsed.dec,4) + " inch, " + round(parsed.dec*25.4,3) + " mm<br>";
-  out += "Result: " + (inRange ? "This drill should work for the selected tap style." : "This drill is outside the recommended range.") + " It is " + relation + ".<br>";
- }else{
-  out += "Checked drill: could not read that size. Try formats like #7, 13/64, .201, or 5.1 mm.<br>";
- }
-}
-out += range.note;
-gid("tapResult").innerHTML = out;
-}
-
-function calcNptHelper(){
-const size = gid("nptSize").value;
-const turns = num("nptTurns");
-const tpi = nptPitchMap[size];
-const depth = tpi ? turns / tpi : 0;
-gid("nptHelperResult").innerHTML =
-"Approximate thread advance after " + turns + " turns: " + round(depth,4) + " inch<br>" +
-"NPT taper on diameter: 0.0625 inch per inch of thread length<br>" +
-"NPT is tapered, so use this only as a rough programming helper.";
-}
-
-function tapCalcMajorInches(){
-const type = gid("tapCalcThreadType").value;
-const major = num("tapCalcMajor");
-return type === "METRIC" ? major / 25.4 : major;
-}
-
-function pitchInchesForType(type, pitchVal){
-return type === "METRIC" ? pitchVal / 25.4 : (pitchVal ? 1 / pitchVal : 0);
-}
-
-function tapBaseSfm(materialName, toolMaterial){
-const name = String(materialName || "").toLowerCase();
-if(name.includes("aluminum")) return toolMaterial === "carbide" ? 180 : 90;
-if(name.includes("stainless") || name.includes("cd4")) return toolMaterial === "carbide" ? 50 : 20;
-if(name.includes("iron") || name.includes("ductile") || name.includes("cast")) return toolMaterial === "carbide" ? 80 : 35;
-return toolMaterial === "carbide" ? 70 : 30;
-}
-
-
-function populateTapWorkMaterials(){
-const sel = gid("tapWorkMaterial");
-if(!sel) return;
-sel.innerHTML = "";
-materials.forEach((m,i)=>{
-const o = document.createElement("option");
-o.value = String(i);
-o.textContent = m.name;
-sel.appendChild(o);
-});
-sel.selectedIndex = 0;
-}
-
-function calcTapSpeedFeed(){
-const type = gid("tapCalcThreadType").value;
-const style = gid("tapCalcStyle").value;
-const toolMaterial = gid("tapToolMaterial").value;
-const material = materials[parseInt(gid("tapWorkMaterial").value || 0,10)] || materials[0];
-const majorIn = tapCalcMajorInches();
-const pitchVal = num("tapCalcPitch");
-const pitchIn = pitchInchesForType(type, pitchVal);
-let sfm = num("tapCalcSfm");
-let rpm = num("tapCalcRpm");
-const recommendedBase = tapBaseSfm(material.name, toolMaterial);
-let recommended = recommendedBase * (style === "form" ? 0.8 : 1.0) * (type === "NPT" ? 0.85 : 1.0);
-if(!sfm && !rpm) sfm = recommended;
-if(!rpm && sfm && majorIn) rpm = (sfm * 3.82) / majorIn;
-if(!sfm && rpm && majorIn) sfm = (rpm * majorIn) / 3.82;
-const ipm = rpm * pitchIn;
-const mmPerRev = type === "METRIC" ? pitchVal : pitchIn * 25.4;
-const mmMin = rpm * mmPerRev;
-gid("tapSpeedResult").innerHTML =
-"Recommended starting SFM: " + round(recommended,1) + "<br>" +
-"Calculated RPM: " + round(rpm,0) + "<br>" +
-"Calculated SFM: " + round(sfm,1) + "<br>" +
-"Feed per revolution: " + round(pitchIn,5) + " inch/rev<br>" +
-"Feed rate: " + round(ipm,4) + " IPM<br>" +
-"Metric feed rate: " + round(mmMin,2) + " mm/min";
-}
-
-function clearTapCalc(){
-gid("tapCalcSfm").value = "";
-gid("tapCalcRpm").value = "";
-gid("tapSpeedResult").innerHTML = "";
-}
-
-function calcThreadMill(){
-const type = gid("tmThreadType").value;
-const major = num("tmMajor");
-const toolDia = num("tmToolDia");
-const pitchVal = num("tmPitch");
-const rpm = num("tmRpm");
-const fpt = num("tmFpt");
-const depth = num("tmDepth");
-const pitchIn = pitchInchesForType(type, pitchVal);
-const majorIn = type === "METRIC" ? major / 25.4 : major;
-const pathDia = majorIn - toolDia;
-const feed = rpm * fpt;
-let out = "";
-out += "Pitch per revolution in inches: " + round(pitchIn,5) + "<br>";
-out += "Toolpath centerline diameter: " + round(pathDia,5) + "<br>";
-out += "Feed rate IPM: " + round(feed,4) + "<br>";
-if(type === "NPT"){
- const diameterChange = depth * 0.0625;
- out += "NPT taper angle per side: 1.7899°<br>";
- out += "Centerline diameter change over depth: " + round(diameterChange,5) + " inch<br>";
- out += "Approximate end centerline diameter: " + round(pathDia - diameterChange,5) + " inch";
-}else{
- out += "Straight thread axial travel per revolution: " + round(pitchIn,5) + " inch";
-}
-gid("threadMillResult").innerHTML = out;
-}
-
-function applySpotToolType(){
-const type = gid("spotToolType").value;
-if(type === "spot90") gid("spotAngle").value = "90";
-else if(type === "spot120") gid("spotAngle").value = "120";
-else if(type === "spot140") gid("spotAngle").value = "140";
-else if(type === "center60") gid("spotAngle").value = "60";
-}
-
-function calcSpotDrill(){
-const type = gid("spotToolType").value;
-const angle = num("spotAngle");
-const drillDia = num("followDrillDia");
-const half = (angle/2) * Math.PI / 180;
-const depth = half ? (drillDia/2) / Math.tan(half) : 0;
-let toolLabel = "Custom tool";
-if(type === "spot90") toolLabel = "Spot drill 90°";
-else if(type === "spot120") toolLabel = "Spot drill 120°";
-else if(type === "spot140") toolLabel = "Spot drill 140°";
-else if(type === "center60") toolLabel = "Center drill 60°";
-
-gid("spotDrillResult").innerHTML =
-"Tool type: " + toolLabel + "<br>" +
-"Minimum depth to match follow drill diameter: " + round(depth,5) + "<br>" +
-"Target follow drill diameter: " + round(drillDia,5) + "<br>" +
-"This uses the same geometry for both spot drills and center drills. Center drills usually use the 60 degree setting.";
-}
-
-function calcFace45(){
-const fpt = num("faceProgFpt");
-const rpm = num("faceRpm");
-const teeth = num("faceTeeth");
-const actualChip = fpt * Math.sin(Math.PI/4);
-const ipm = rpm * teeth * fpt;
-const multiplier = actualChip ? fpt / actualChip : 1;
-gid("face45Result").innerHTML =
-"IPM: " + round(ipm,4) + "<br>" +
-"Actual chip thickness at 45 degrees: " + round(actualChip,5) + "<br>" +
-"Feed advantage multiplier versus 90 degree: " + round(multiplier,4);
-}
-
-function calcShoulder90(){
-const fpt = num("shoulderFpt");
-const rpm = num("shoulderRpm");
-const teeth = num("shoulderTeeth");
-const ipm = rpm * teeth * fpt;
-gid("shoulder90Result").innerHTML =
-"IPM: " + round(ipm,4) + "<br>" +
-"Actual chip thickness at 90 degrees: " + round(fpt,5) + "<br>" +
-"90 degree tools are best when wall straightness matters.";
-}
-
-function setChamferAngle(includedAngle){
-gid("chamferAngle").value = String(includedAngle);
-calcChamfer();
-}
-
-function calcChamfer(){
-const holeDia = num("chamferHoleDia");
-const width = num("chamferWidth");
-const angle = num("chamferAngle");
-const tipDia = num("chamferTipDia");
-const toolMaxDia = num("chamferToolMaxDia");
-if(holeDia <= 0 || width < 0 || angle <= 0 || angle >= 180){
- gid("chamferResult").innerHTML = "Enter a valid hole diameter, chamfer size, and tool angle.";
- return;
-}
-const half = angle / 2 * Math.PI / 180;
-const targetMajor = holeDia + (2 * width);
-const depthFromPoint = Math.tan(half) ? (targetMajor - tipDia) / (2 * Math.tan(half)) : 0;
-const touchOffDepth = Math.tan(half) ? (holeDia - tipDia) / (2 * Math.tan(half)) : 0;
-const additionalDepth = depthFromPoint - touchOffDepth;
-const chamferFaceLength = Math.sin(half) ? width / Math.sin(half) : 0;
-let out = "";
-out += "Starting hole diameter: " + round(holeDia,4) + "<br>";
-out += "Target chamfer size per side: " + round(width,4) + "<br>";
-out += "Target top diameter after chamfer: " + round(targetMajor,4) + "<br>";
-out += "Tool included angle: " + round(angle,4) + "°<br>";
-out += "Tool tip diameter: " + round(tipDia,4) + "<br>";
-out += "Program depth from theoretical point: " + round(depthFromPoint,4) + "<br>";
-out += "Depth when tool just touches the existing hole edge: " + round(touchOffDepth,4) + "<br>";
-out += "Additional Z depth past touch off to hold the chamfer: " + round(additionalDepth,4) + "<br>";
-out += "Chamfer face length: " + round(chamferFaceLength,4);
-if(toolMaxDia > 0){
- const maxPossibleWidth = Math.max(0, (toolMaxDia - holeDia) / 2);
- out += "<br>Chamfer tool cutting diameter: " + round(toolMaxDia,4);
- out += "<br>Maximum chamfer size this tool can make in this hole: " + round(maxPossibleWidth,4);
- if(targetMajor > toolMaxDia + 0.000001){
-  out += "<br>Warning: this tool is not large enough to open the hole to the target top diameter.";
- } else {
-  out += "<br>This tool is large enough to make the target chamfer diameter.";
- }
-}
-gid("chamferResult").innerHTML = out;
-}
-
-function calcCountersink(){
-const holeDia = num("holeDia");
-const cskMajor = num("cskMajor");
-const angle = num("cskAngle");
-const half = angle / 2 * Math.PI / 180;
-const depth = half ? ((cskMajor - holeDia) / 2) / Math.tan(half) : 0;
-gid("cskResult").innerHTML =
-"Countersink included angle: " + round(angle,4) + "°<br>" +
-"Hole diameter: " + round(holeDia,4) + "<br>" +
-"Target major diameter: " + round(cskMajor,4) + "<br>" +
-"Required depth: " + round(depth,4);
-}
-
-function calcPitchFromAngle(){
-const bore = num("boreDia");
-const tool = num("helixToolDia");
-const angle = num("helixAngleDeg");
-const radius = (bore - tool) / 2;
-const circ = 2 * Math.PI * radius;
-const pitch = circ * Math.tan(angle * Math.PI / 180);
-gid("targetPitch").value = round(pitch,6);
-gid("helixPitchResult").innerHTML =
-"Cutting radius: " + round(radius,6) + "<br>" +
-"Circumference: " + round(circ,6) + "<br>" +
-"Pitch per rev: " + round(pitch,6) + "<br>" +
-"Helix angle: " + round(angle,6) + " deg";
-}
-
-function calcAngleFromPitch(){
-const bore = num("boreDia");
-const tool = num("helixToolDia");
-const pitch = num("targetPitch");
-const radius = (bore - tool) / 2;
-const circ = 2 * Math.PI * radius;
-const angle = circ ? Math.atan(pitch / circ) * 180 / Math.PI : 0;
-gid("helixAngleDeg").value = round(angle,6);
-gid("helixPitchResult").innerHTML =
-"Cutting radius: " + round(radius,6) + "<br>" +
-"Circumference: " + round(circ,6) + "<br>" +
-"Pitch per rev: " + round(pitch,6) + "<br>" +
-"Helix angle: " + round(angle,6) + " deg";
-}
-
-function clearHelixPitch(){
-gid("boreDia").value = "";
-gid("helixToolDia").value = "";
-gid("helixAngleDeg").value = "";
-gid("targetPitch").value = "";
-gid("helixPitchResult").innerHTML = "";
-}
-
-function calcHelixRamp(){
-const helixDia = num("helixDia");
-const helixPitch = num("helixPitch");
-const rampDia = num("rampDia");
-const rampDrop = num("rampDrop");
-const helixCirc = Math.PI * helixDia;
-const rampCirc = Math.PI * rampDia;
-const helixAngle = helixCirc ? Math.atan(helixPitch / helixCirc) * 180 / Math.PI : 0;
-const rampAngle = rampCirc ? Math.atan(rampDrop / rampCirc) * 180 / Math.PI : 0;
-gid("helixRampResult").innerHTML =
-"Helix angle: " + round(helixAngle,4) + "°<br>" +
-"Ramp angle: " + round(rampAngle,4) + "°";
-}
-
-
-function calcLengthConversion(){
-const inch = num("convInchInput");
-const mm = num("convMmInput");
-gid("convLengthResult").innerHTML =
-"Inches to mm: " + round(inch * 25.4,4) + "<br>" +
-"mm to inches: " + round(mm / 25.4,4);
-}
-
-function calcFractionConversion(){
-const dec = num("convDecInput");
-const fracText = gid("convFracInput").value;
-gid("convFractionResult").innerHTML =
-"Decimal to nearest 64ths: " + decimalToFraction64(dec) + "<br>" +
-"Fraction to decimal: " + round(parseFraction(fracText),6);
-}
-
-function calcPitchSpeedConversion(){
-const tpi = num("convTpiInput");
-const pitch = num("convPitchInput");
-const sfm = num("convSfmInput");
-const smm = num("convSmmInput");
-gid("convPitchSpeedResult").innerHTML =
-"TPI to pitch: " + round(tpi ? 1 / tpi : 0,6) + " inch<br>" +
-"Pitch to TPI: " + round(pitch ? 1 / pitch : 0,4) + "<br>" +
-"SFM to meters per minute: " + round(sfm * 0.3048,4) + "<br>" +
-"Meters per minute to SFM: " + round(smm / 0.3048,4);
-}
-
-function calcBoltCircle(){
-const bcd = num("bcd");
-const count = Math.max(1, Math.floor(num("holeCount")));
-const start = num("startAngle");
-const cx = num("centerX");
-const cy = num("centerY");
-const r = bcd / 2;
-const body = gid("boltBody");
-body.innerHTML = "";
-for(let i=0;i<count;i++){
-const angle = start + i * 360 / count;
-const rad = angle * Math.PI / 180;
-const x = cx + r * Math.cos(rad);
-const y = cy + r * Math.sin(rad);
-const tr = document.createElement("tr");
-tr.innerHTML = "<td>"+(i+1)+"</td><td>"+round(angle,4)+"</td><td>"+round(x,4)+"</td><td>"+round(y,4)+"</td>";
-body.appendChild(tr);
-}
-gid("boltSummaryResult").innerHTML =
-"Radius: " + round(r,4) + "<br>" +
-"Angle step: " + round(360 / count,4) + "°<br>" +
-"Center: X " + round(cx,4) + "  Y " + round(cy,4);
-}
-
-function calcCircle(){
-const dia = num("circleDia");
-const rad = num("circleRad");
-const circ = num("circleCirc");
-let useDia = 0;
-if(dia > 0){
-useDia = dia;
-}else if(rad > 0){
-useDia = rad * 2;
-}else if(circ > 0){
-useDia = circ / Math.PI;
-}
-const useRad = useDia / 2;
-const useCirc = Math.PI * useDia;
-const area = Math.PI * useRad * useRad;
-gid("circleDia").value = round(useDia,6);
-gid("circleRad").value = round(useRad,6);
-gid("circleCirc").value = round(useCirc,6);
-gid("circleResult").innerHTML =
-"Diameter: " + round(useDia,6) + "<br>" +
-"Radius: " + round(useRad,6) + "<br>" +
-"Circumference: " + round(useCirc,6) + "<br>" +
-"Area: " + round(area,6);
-}
-
-function calcTaper(){
-const large = num("largeDia");
-const small = num("smallDia");
-const len = num("taperLen");
-const diamChange = large - small;
-const perSide = len ? Math.atan((diamChange / 2) / len) * 180 / Math.PI : 0;
-const included = perSide * 2;
-const taperPerInch = len ? diamChange / len : 0;
-const taperPerFoot = taperPerInch * 12;
-gid("taperResult").innerHTML =
-"Diameter change: " + round(diamChange,5) + "<br>" +
-"Per side angle: " + round(perSide,4) + "°<br>" +
-"Included angle: " + round(included,4) + "°<br>" +
-"Taper per inch: " + round(taperPerInch,5) + "<br>" +
-"Taper per foot: " + round(taperPerFoot,5);
-}
-
-function calcPointDistance(){
-const x1 = num("x1");
-const y1 = num("y1");
-const x2 = num("x2");
-const y2 = num("y2");
-const dx = x2 - x1;
-const dy = y2 - y1;
-const dist = Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
-const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-gid("pointDistanceResult").innerHTML =
-"Delta X: " + round(dx,5) + "<br>" +
-"Delta Y: " + round(dy,5) + "<br>" +
-"Distance: " + round(dist,5) + "<br>" +
-"Angle from X axis: " + round(angle,4) + "°";
-}
-
-function calcBasicShopMath(){
-const base = num("percentBase");
-const pct = num("percentValue");
-const newVal = num("percentNew");
-const pctOfBase = base * (pct / 100);
-const increased = base * (1 + pct / 100);
-const percentChange = base ? ((newVal - base) / base) * 100 : 0;
-gid("basicShopMathResult").innerHTML =
-"Percent of base: " + round(pctOfBase,6) + "<br>" +
-"Base plus percent: " + round(increased,6) + "<br>" +
-"Percent change from base to new value: " + round(percentChange,4) + "%";
-}
-
-function solveRightTriangle(){
-let a = parseFloat(gid("trigSideA").value) || 0;
-let b = parseFloat(gid("trigSideB").value) || 0;
-let h = parseFloat(gid("trigHyp").value) || 0;
-let angleA = parseFloat(gid("trigAngleDeg").value) || 0;
-let solvedBy = "";
-
-if(a > 0 && b > 0){
-h = Math.sqrt(a*a + b*b);
-angleA = Math.atan(a / b) * 180 / Math.PI;
-solvedBy = "Solved from Side A and Side B";
-}else if(a > 0 && h > 0 && h > a){
-b = Math.sqrt(h*h - a*a);
-angleA = Math.asin(a / h) * 180 / Math.PI;
-solvedBy = "Solved from Side A and Hypotenuse";
-}else if(b > 0 && h > 0 && h > b){
-a = Math.sqrt(h*h - b*b);
-angleA = Math.acos(b / h) * 180 / Math.PI;
-solvedBy = "Solved from Side B and Hypotenuse";
-}else if(angleA > 0 && angleA < 90 && h > 0){
-const rad = angleA * Math.PI / 180;
-a = h * Math.sin(rad);
-b = h * Math.cos(rad);
-solvedBy = "Solved from Angle A and Hypotenuse";
-}else if(angleA > 0 && angleA < 90 && a > 0){
-const rad = angleA * Math.PI / 180;
-h = a / Math.sin(rad);
-b = a / Math.tan(rad);
-solvedBy = "Solved from Angle A and Side A";
-}else if(angleA > 0 && angleA < 90 && b > 0){
-const rad = angleA * Math.PI / 180;
-a = b * Math.tan(rad);
-h = b / Math.cos(rad);
-solvedBy = "Solved from Angle A and Side B";
-}else{
-gid("trigResult").innerHTML = "Enter any valid two values. Use Side A and Side B, Side A and Hypotenuse, Side B and Hypotenuse, Angle A and Hypotenuse, Angle A and Side A, or Angle A and Side B.";
-return;
-}
-
-const angleB = 90 - angleA;
-gid("trigSideA").value = round(a,6);
-gid("trigSideB").value = round(b,6);
-gid("trigHyp").value = round(h,6);
-gid("trigAngleDeg").value = round(angleA,6);
-
-gid("trigResult").innerHTML =
-solvedBy + "<br>" +
-"Side A: " + round(a,6) + "<br>" +
-"Side B: " + round(b,6) + "<br>" +
-"Hypotenuse: " + round(h,6) + "<br>" +
-"Angle A: " + round(angleA,4) + "°<br>" +
-"Angle B: " + round(angleB,4) + "°";
-}
-
-function calcTurning(){
-const dia = num("turnDia");
-const sfm = num("turnSfm");
-const ipr = num("turnIpr");
-const rpm = dia ? (sfm * 3.82) / dia : 0;
-const ipm = rpm * ipr;
-gid("turnResult").innerHTML =
-"Turning RPM: " + round(rpm,0) + "<br>" +
-"Turning IPM: " + round(ipm,4);
-}
-
-populateMaterials();
-populateTapWorkMaterials();
-populateDrillTable();
-toggleCalcType();
-loadThreadChart();
-loadTapCalcThreadChart();
-loadThreadMillChart();
-calcTapSpeedFeed();
-calcPointDepth();
-calcPeck();
-calcTapSearch();
-calcNptHelper();
-calcThreadMill();
-calcSpotDrill();
-calcChamfer();
-calcPitchFromAngle();
-calcLengthConversion();
-calcFractionConversion();
-calcPitchSpeedConversion();
-calcBoltCircle();
-calcCircle();
-calcTaper();
-calcPointDistance();
-calcBasicShopMath();
-solveRightTriangle();
-calcTurningMain();
-function forceRebuildSelectors(){
-  populateDrillTable();
-  loadThreadChart();
-  loadTapCalcThreadChart();
-  loadThreadMillChart();
-  if(gid("drillQuick") && gid("drillQuick").options.length) gid("drillQuick").selectedIndex = 0;
-  if(gid("threadSelect") && gid("threadSelect").options.length) gid("threadSelect").selectedIndex = 0;
-  if(gid("tapCalcSelect") && gid("tapCalcSelect").options.length) gid("tapCalcSelect").selectedIndex = 0;
-  if(gid("tmSelect") && gid("tmSelect").options.length) gid("tmSelect").selectedIndex = 0;
-  showQuickDrill();
-  calcTapSearch();
-  applyTapCalcSelect();
-  applyThreadMillSelect();
-}
-window.addEventListener("load", ()=>{ forceRebuildSelectors(); setTimeout(forceRebuildSelectors, 50); });
-</script>
+<script src="./js/data.js"></script>
+<script src="./js/core.js"></script>
+<script src="./js/workflow.js"></script>
+<script src="./js/app.js"></script>
 </body>
 </html>
