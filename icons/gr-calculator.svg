@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="GR Programming Calculator">
+  <rect width="512" height="512" rx="96" fill="#0070d8"/>
+  <rect x="72" y="64" width="368" height="384" rx="48" fill="#ffffff"/>
+  <rect x="112" y="104" width="288" height="92" rx="18" fill="#eaf4ff" stroke="#0070d8" stroke-width="12"/>
+  <g fill="#0070d8">
+    <rect x="112" y="236" width="64" height="64" rx="12"/>
+    <rect x="224" y="236" width="64" height="64" rx="12"/>
+    <rect x="336" y="236" width="64" height="64" rx="12"/>
+    <rect x="112" y="336" width="64" height="64" rx="12"/>
+    <rect x="224" y="336" width="64" height="64" rx="12"/>
+    <rect x="336" y="336" width="64" height="64" rx="12"/>
+  </g>
+  <path d="M134 164h116m36 0h92" stroke="#1e3a8a" stroke-width="18" stroke-linecap="round"/>
+</svg>
