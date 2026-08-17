@@ -1,67 +1,90 @@
 # GR Programming Calculator
 
-A lightweight browser-based collection of machining, CNC programming, geometry, thread, drill, and shop-math helpers.
+The GR Programming Calculator is a browser-based machining calculator for CNC programmers, machinists, and manufacturing engineers. It combines commonly used speed-and-feed, drilling, threading, geometry, inspection, and shop-math tools in one page that works on a desktop or phone.
 
-## Shop workflow
+[Open the live calculator](https://matthewjaybarr-png.github.io/GR-CALCULATOR/)
 
-- Save multiple user-defined machine profiles with spindle-RPM and feed-IPM limits.
-- Show advisory limit checks on milling, drilling, turning, tapping, and thread-milling results without changing the calculated values.
-- Remember common material, tool, operation, unit, and baseline selections in the current browser.
-- Copy the latest calculation as a labeled setup note or download it as a text file.
-- Install the calculator as an offline-capable app after it has been loaded once over HTTPS or localhost.
+## What it does
 
-Machine profiles and preferences are stored only in the current browser. Clearing site data removes them.
+The calculator includes:
 
-## Advanced math
+- Milling, drilling, turning, and tapping speeds and feeds
+- Radial chip-thinning calculations for end mills
+- Drill-size search, conversion, quick selection, point-depth, spot-drill, and peck guidance
+- UNC, UNF, metric, and NPT tap-drill checks
+- Cutting-tap, form-tap, and thread-mill helpers
+- Chamfer, countersink, helix, bolt-circle, circle, taper, triangle, and conversion math
+- Circular-interpolation feed compensation
+- Ball-nose and tapered-tool effective cutting diameter
+- Scallop height and stepover calculations
+- True-position and bore-stock planning
 
-- Internal/external circular-interpolation centerline feed compensation
-- Ball-nose and tapered-tool effective cutting diameter and effective SFM
-- Ball-tool scallop height or stepover solving
-- Diametrical true position from nominal and actual centers
-- Bore stock, equal rough-pass, prefinish-diameter, and finish-allowance planning
+It also supports browser-local machine profiles. A profile can hold a machine's maximum spindle RPM and feed rate so calculated results can display a warning when they exceed those saved limits. Results are advisory and are never silently reduced or changed.
 
-The calculator intentionally does not generate controller-ready CNC code. Programming output remains separate from the verified math layer.
+## Basic use
 
-## Current status
+1. Open the calculator and choose the section you need from the top navigation.
+2. Select the calculation basis and enter the known values.
+3. Use a GR shop baseline when helpful, or enter verified tool-manufacturer values directly.
+4. Select **Calculate** and review the displayed units, basis, and warnings.
+5. Copy or download the latest result when you want a compact setup note.
 
-The staged reliability audit is complete. Calculation integrity, reference-data provenance, modularization, shop workflow, offline use, and the final advanced-math expansion are covered by automated tests. See [AUDIT.md](AUDIT.md) for the findings and completed implementation record.
+Machine profiles and common selections are stored only in the current browser. Clearing site data removes them.
 
-The calculator is a programming aid, not a replacement for tooling manufacturer data, machine limits, workholding review, or inspection. Generic speed/feed estimates must be verified for the exact cutter, insert, material condition, holder, stickout, coolant, machine, and operation before use.
+For a short section-by-section explanation, see the [User Guide](docs/USER_GUIDE.md).
+
+## Important limits
+
+This is a programming and planning aid, not a replacement for:
+
+- Tool and insert manufacturer data
+- Machine, spindle, holder, and workholding limits
+- Coolant, chip-control, rigidity, and stickout review
+- Print requirements, inspection plans, or thread gaging
+- Prove-out, simulation, or operator verification
+
+The calculator does not generate controller-ready CNC code and is not connected to a machine tool.
+
+## Data and reliability
+
+Mathematical formulas are isolated from the page controls and covered by automated regression tests. Generic cutting presets are clearly identified as GR shop baselines rather than manufacturer recommendations. See [Calculation and Data Provenance](SOURCES.md) for sources and update rules, and [Audit Record](AUDIT.md) for the completed reliability review.
+
+## Offline use
+
+After the calculator has loaded once from GitHub Pages, supported browsers can install it as an app and cache the local calculator files for offline use. The external title font may fall back to a system font while offline; calculator functions remain local.
 
 ## Run locally
 
-The site has no production dependencies. Serve the repository with any static web server, then open the displayed local URL.
+The site has no production dependencies. From the repository directory:
 
 ```bash
 python -m http.server 8000
 ```
 
+Then open `http://localhost:8000`.
+
 ## Test
 
-Node.js is required for the calculation regression tests. No package installation is needed.
-
-```bash
-node --test tests/*.test.js
-```
-
-or:
+Node.js is required, but no package installation is needed:
 
 ```bash
 npm test
 ```
 
+The complete release check is:
+
+```bash
+npm run check
+```
+
 ## Project structure
 
-- `index.html` — semantic interface markup and asset loading order
-- `css/styles.css` — responsive interface and component styles
-- `js/app.js` — browser controller, DOM behavior, and calculator orchestration
-- `js/core.js` — pure, validated calculation functions shared by the page and tests
-- `js/data.js` — versioned material baselines, thread data, and provenance metadata
-- `js/workflow.js` — validated machine-profile and limit-checking logic
-- `manifest.webmanifest` and `service-worker.js` — installable/offline application support
-- `tests/core.test.js` — calculation regression tests
-- `tests/data.test.js` — reference-data validation tests
-- `tests/page-contract.test.js` — interface/controller integration contracts
-- `tests/workflow.test.js` — machine-profile and machine-limit regression tests
-- `AUDIT.md` — audit findings and staged improvement plan
-- `SOURCES.md` — source, assumption, and update policy for machining data
+- `index.html` — interface markup
+- `css/styles.css` — responsive layout and component styles
+- `js/app.js` — browser controls and result presentation
+- `js/core.js` — pure machining and geometry calculations
+- `js/data.js` — material, drill, and thread reference data
+- `js/workflow.js` — machine-profile validation and limit checks
+- `tests/` — calculation, data, workflow, and page-contract tests
+- `manifest.webmanifest` and `service-worker.js` — installable/offline support
+- `docs/USER_GUIDE.md` — concise user guide
