@@ -21,7 +21,12 @@ let latestShopResult = null;
 
 function gid(id){ return document.getElementById(id); }
 function num(id){ return parseFloat(gid(id).value) || 0; }
-function round(v,d=4){ if(!isFinite(v)) return "0"; return Number(v).toFixed(d).replace(/\.?0+$/,""); }
+function round(v,d=4){
+ if(!isFinite(v)) return "0";
+ const text = Number(v).toFixed(d);
+ // Only trim trailing zeros after a decimal point; "2000" must stay "2000".
+ return text.indexOf(".") === -1 ? text : text.replace(/\.?0+$/,"");
+}
 function escapeHtml(value){
 return String(value).replace(/[&<>'"]/g, character => ({
 "&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"
