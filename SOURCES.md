@@ -7,12 +7,12 @@ Revision: 2026-08-17
 The calculator separates three kinds of information:
 
 1. **Mathematical formulas** — deterministic geometry, speed, and feed relationships covered by regression tests.
-2. **GR shop baselines** — low, standard, and upper starting assumptions for planning. These are deliberately labeled as internal baselines, not manufacturer recommendations.
+2. **MB baselines** — low, standard, and upper starting assumptions for planning. These are deliberately labeled as internal baselines, not manufacturer recommendations.
 3. **Published reference data** — thread designations, selected tap-drill sizes, and material classifications tied to an identified external source.
 
-Tool-specific manufacturer cutting data always outranks a GR baseline.
+Tool-specific manufacturer cutting data always outranks an MB baseline.
 
-## GR shop baseline v1
+## MB baseline v1
 
 The operation-specific SFM and feed-factor ranges in `js/data.js` are internal conservative starting assumptions for:
 
@@ -68,7 +68,7 @@ The familiar shop constant `3.82` is the rounded value of `12 / π`.
 Any future preset-data change must include:
 
 - a revision date;
-- a source or an explicit `GR shop baseline` label;
+- a source or an explicit `MB baseline` label;
 - the affected operation and tool class;
 - regression-test updates;
 - no silent replacement of a manufacturer value with a generic estimate.

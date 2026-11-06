@@ -47,9 +47,9 @@ test('offline application metadata and cache contracts remain complete', () => {
   assert.match(html, /rel="manifest"/);
   assert.equal(manifest.display, 'standalone');
   assert.equal(manifest.start_url, './');
-  assert.match(serviceWorker, /gr-calculator-v2/);
+  assert.match(serviceWorker, /mb-sine-v1/);
   assert.deepEqual(manifest.icons.map(icon => icon.sizes), ['192x192', '512x512']);
-  for (const asset of ['./index.html', './css/styles.css', './js/data.js', './js/core.js', './js/workflow.js', './js/app.js', './icons/gr-calculator-192.png', './icons/gr-calculator-512.png']) {
+  for (const asset of ['./index.html', './css/styles.css', './js/data.js', './js/core.js', './js/workflow.js', './js/app.js', './icons/mb-sine-192.png', './icons/mb-sine-512.png']) {
     assert.match(serviceWorker, new RegExp(asset.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
   assert.match(app, /navigator\.serviceWorker\.register\("\.\/service-worker\.js"\)/);

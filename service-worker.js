@@ -1,4 +1,4 @@
-const CACHE_NAME = "gr-calculator-v2";
+const CACHE_NAME = "mb-sine-v1";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -8,9 +8,9 @@ const APP_ASSETS = [
   "./js/workflow.js",
   "./js/app.js",
   "./manifest.webmanifest",
-  "./icons/gr-calculator.svg",
-  "./icons/gr-calculator-192.png",
-  "./icons/gr-calculator-512.png"
+  "./icons/mb-sine.svg",
+  "./icons/mb-sine-192.png",
+  "./icons/mb-sine-512.png"
 ];
 
 self.addEventListener("install", event => {

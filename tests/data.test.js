@@ -41,7 +41,7 @@ test('published 2-inch NPT drill reference remains exact', () => {
 });
 
 test('provenance distinguishes shop baselines from external classification', () => {
-  assert.equal(data.provenance.baseline.id, 'gr-shop-baseline-v1');
+  assert.equal(data.provenance.baseline.id, 'mb-baseline-v1');
   assert.match(data.provenance.baseline.note, /manufacturer/i);
   assert.match(data.provenance.classification.url, /^https:\/\//);
 });

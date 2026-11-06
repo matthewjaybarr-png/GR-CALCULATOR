@@ -1,15 +1,15 @@
-(function attachGRCalculatorData(root, factory) {
+(function attachMBCalculatorData(root, factory) {
   const api = factory();
   if (typeof module === "object" && module.exports) module.exports = api;
-  root.GRData = api;
+  root.MBData = api;
 })(typeof globalThis !== "undefined" ? globalThis : this, function createData() {
   const LEVEL_INDEX = { conservative: 0, standard: 1, upper: 2 };
 
   const provenance = {
     revision: "2026-08-17",
     baseline: {
-      id: "gr-shop-baseline-v1",
-      label: "GR shop baseline v1",
+      id: "mb-baseline-v1",
+      label: "MB baseline v1",
       note: "Conservative non-tool-specific starting assumptions. Verify against the exact tool manufacturer's data before cutting.",
     },
     classification: {

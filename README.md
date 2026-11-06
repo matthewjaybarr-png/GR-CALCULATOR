@@ -1,8 +1,10 @@
-# GR Programming Calculator
+# Sine
 
-The GR Programming Calculator is a browser-based machining calculator for CNC programmers, machinists, and manufacturing engineers. It combines commonly used speed-and-feed, drilling, threading, geometry, inspection, and shop-math tools in one page that works on a desktop or phone.
+Project name: **MB Sine**. On screen it is just **Sine**.
 
-[Open the live calculator](https://matthewjaybarr-png.github.io/GR-CALCULATOR/)
+Sine is a browser-based machining calculator for CNC programmers, machinists, and manufacturing engineers. It combines commonly used speed-and-feed, drilling, threading, geometry, inspection, and shop-math tools in one page that works on a desktop or phone.
+
+[Open the live calculator](https://matthewjaybarr-png.github.io/MB-Sine/)
 
 ## What it does
 
@@ -25,7 +27,7 @@ It also supports browser-local machine profiles. A profile can hold a machine's 
 
 1. Open the calculator and choose the section you need from the top navigation.
 2. Select the calculation basis and enter the known values.
-3. Use a GR shop baseline when helpful, or enter verified tool-manufacturer values directly.
+3. Use an MB baseline when helpful, or enter verified tool-manufacturer values directly.
 4. Select **Calculate** and review the displayed units, basis, and warnings.
 5. Copy or download the latest result when you want a compact setup note.
 
@@ -47,7 +49,7 @@ The calculator does not generate controller-ready CNC code and is not connected 
 
 ## Data and reliability
 
-Mathematical formulas are isolated from the page controls and covered by automated regression tests. Generic cutting presets are clearly identified as GR shop baselines rather than manufacturer recommendations. See [Calculation and Data Provenance](SOURCES.md) for sources and update rules, and [Audit Record](AUDIT.md) for the completed reliability review.
+Mathematical formulas are isolated from the page controls and covered by automated regression tests. Generic cutting presets are clearly identified as MB baselines rather than manufacturer recommendations. See [Calculation and Data Provenance](SOURCES.md) for sources and update rules, and [Audit Record](AUDIT.md) for the completed reliability review.
 
 ## Offline use
 

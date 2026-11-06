@@ -1,7 +1,7 @@
 (function(root, factory){
   const api = factory();
   if(typeof module === "object" && module.exports) module.exports = api;
-  root.GRWorkflow = api;
+  root.MBWorkflow = api;
 })(typeof globalThis !== "undefined" ? globalThis : this, function(){
   "use strict";
 
@@ -55,5 +55,26 @@
     return {profile, warnings, withinLimits:warnings.length === 0};
   }
 
-  return {normalizeMachineProfile, evaluateMachineLimits};
+  // Copy values saved under an old key to its new key, once, without ever overwriting
+  // something already saved under the new key. Old keys are left in place (harmless, and
+  // lets an older copy of the page keep working). Returns how many keys were copied.
+  function migrateLegacyKeys(storage, keyMap){
+    let migrated = 0;
+    if(!storage || !keyMap) return migrated;
+    Object.keys(keyMap).forEach(oldKey => {
+      try{
+        const newKey = keyMap[oldKey];
+        if(storage.getItem(newKey) !== null) return;
+        const value = storage.getItem(oldKey);
+        if(value === null) return;
+        storage.setItem(newKey, value);
+        migrated += 1;
+      }catch(error){
+        /* storage blocked or full: skip; the page falls back to defaults */
+      }
+    });
+    return migrated;
+  }
+
+  return {normalizeMachineProfile, evaluateMachineLimits, migrateLegacyKeys};
 });

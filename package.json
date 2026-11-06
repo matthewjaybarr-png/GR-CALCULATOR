@@ -1,9 +1,11 @@
 {
-  "name": "gr-programming-calculator",
+  "name": "mb-sine",
   "version": "1.0.0",
   "private": true,
   "description": "Shop-floor machining and CNC programming calculators",
   "scripts": {
+    "build:offline": "node tools/build-offline.js",
+    "build:reference": "node tools/build-reference.js",
     "check": "node --check js/data.js && node --check js/core.js && node --check js/workflow.js && node --check js/app.js && node --check service-worker.js && node --test tests/*.test.js",
     "test": "node --test tests/*.test.js"
   }

@@ -30,3 +30,35 @@ test('zero means a machine limit is intentionally not configured', () => {
   assert.equal(result.withinLimits, true);
   assert.deepEqual(result.warnings, []);
 });
+
+function fakeStorage(initial) {
+  const map = new Map(Object.entries(initial));
+  return {
+    getItem: key => (map.has(key) ? map.get(key) : null),
+    setItem: (key, value) => { map.set(key, String(value)); },
+    dump: () => Object.fromEntries(map),
+  };
+}
+
+test('legacy saved settings are copied to the new keys once', () => {
+  const storage = fakeStorage({ oldProfiles: '[{"id":"m1"}]', oldActive: 'm1' });
+  const copied = workflow.migrateLegacyKeys(storage, { oldProfiles: 'newProfiles', oldActive: 'newActive' });
+  assert.equal(copied, 2);
+  assert.equal(storage.getItem('newProfiles'), '[{"id":"m1"}]');
+  assert.equal(storage.getItem('newActive'), 'm1');
+  assert.equal(storage.getItem('oldProfiles'), '[{"id":"m1"}]', 'old keys are left in place');
+  assert.equal(workflow.migrateLegacyKeys(storage, { oldProfiles: 'newProfiles' }), 0, 'second run copies nothing');
+});
+
+test('migration never overwrites settings already saved under the new key', () => {
+  const storage = fakeStorage({ oldProfiles: 'old', newProfiles: 'current' });
+  assert.equal(workflow.migrateLegacyKeys(storage, { oldProfiles: 'newProfiles' }), 0);
+  assert.equal(storage.getItem('newProfiles'), 'current');
+});
+
+test('migration tolerates missing or blocked storage', () => {
+  assert.equal(workflow.migrateLegacyKeys(null, { a: 'b' }), 0);
+  const blocked = { getItem() { throw new Error('blocked'); }, setItem() { throw new Error('blocked'); } };
+  assert.equal(workflow.migrateLegacyKeys(blocked, { a: 'b' }), 0);
+  assert.equal(workflow.migrateLegacyKeys(fakeStorage({}), { missing: 'b' }), 0);
+});
