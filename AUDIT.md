@@ -1,4 +1,4 @@
-# GR Programming Calculator Audit
+# Sine Audit
 
 Audit target: `main` at `1f6429d`
 

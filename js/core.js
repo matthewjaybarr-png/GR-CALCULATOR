@@ -1,7 +1,7 @@
-(function attachGRCalculatorCore(root, factory) {
+(function attachMBCalculatorCore(root, factory) {
   const api = factory();
   if (typeof module === "object" && module.exports) module.exports = api;
-  root.GRCalc = api;
+  root.MBCalc = api;
 })(typeof globalThis !== "undefined" ? globalThis : this, function createCore() {
   const INCHES_PER_MILLIMETER = 1 / 25.4;
   const SFM_RPM_CONSTANT = 12 / Math.PI;

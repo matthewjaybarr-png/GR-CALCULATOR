@@ -1,15 +1,15 @@
-const materials = GRData.materials;
-const UNC = GRData.threads.UNC;
-const UNF = GRData.threads.UNF;
-const NPT = GRData.threads.NPT;
-const METRIC = GRData.threads.METRIC;
-const nptPitchMap = GRData.nptPitchMap;
-const numberDrills = GRData.numberDrills;
-const letterDrills = GRData.letterDrills;
-const metricDrills = GRData.metricDrills;
-const MACHINE_STORAGE_KEY = "grCalculator.machineProfiles.v1";
-const ACTIVE_MACHINE_STORAGE_KEY = "grCalculator.activeMachine.v1";
-const PREFERENCE_STORAGE_KEY = "grCalculator.preferences.v1";
+const materials = MBData.materials;
+const UNC = MBData.threads.UNC;
+const UNF = MBData.threads.UNF;
+const NPT = MBData.threads.NPT;
+const METRIC = MBData.threads.METRIC;
+const nptPitchMap = MBData.nptPitchMap;
+const numberDrills = MBData.numberDrills;
+const letterDrills = MBData.letterDrills;
+const metricDrills = MBData.metricDrills;
+const MACHINE_STORAGE_KEY = "mbSine.machineProfiles.v1";
+const ACTIVE_MACHINE_STORAGE_KEY = "mbSine.activeMachine.v1";
+const PREFERENCE_STORAGE_KEY = "mbSine.preferences.v1";
 const PREFERENCE_IDS = [
 "calcType", "units", "drillToolType", "material", "presetLevel",
 "turnType", "turnUnits", "turnMaterial", "turnPresetLevel",
@@ -21,7 +21,12 @@ let latestShopResult = null;
 
 function gid(id){ return document.getElementById(id); }
 function num(id){ return parseFloat(gid(id).value) || 0; }
-function round(v,d=4){ if(!isFinite(v)) return "0"; return Number(v).toFixed(d).replace(/\.?0+$/,""); }
+function round(v,d=4){
+ if(!isFinite(v)) return "0";
+ const text = Number(v).toFixed(d);
+ // Only trim trailing zeros after a decimal point; "2000" must stay "2000".
+ return text.indexOf(".") === -1 ? text : text.replace(/\.?0+$/,"");
+}
 function escapeHtml(value){
 return String(value).replace(/[&<>'"]/g, character => ({
 "&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"
@@ -71,7 +76,7 @@ status.classList.toggle("warning", Boolean(isError));
 function initializeMachineProfiles(){
 const stored = readStoredJson(MACHINE_STORAGE_KEY, []);
 machineProfiles = Array.isArray(stored) ? stored.flatMap(profile => {
- try{return [GRWorkflow.normalizeMachineProfile(profile)];}
+ try{return [MBWorkflow.normalizeMachineProfile(profile)];}
  catch(error){return [];}
 }) : [];
 const activeId = String(readStoredJson(ACTIVE_MACHINE_STORAGE_KEY, "") || "");
@@ -97,7 +102,7 @@ function saveMachineProfile(){
 const selected = activeMachineProfile();
 let profile;
 try{
- profile = GRWorkflow.normalizeMachineProfile({
+ profile = MBWorkflow.normalizeMachineProfile({
   id:selected ? selected.id : "machine-" + Date.now(),
   name:gid("machineProfileName").value,
   maxRpm:gid("machineMaxRpm").value,
@@ -137,7 +142,7 @@ renderMachineProfileStatus(profile.name + " deleted from this browser.", false);
 function machineLimitMarkup(rpm, feedIpm){
 const profile = activeMachineProfile();
 if(!profile) return "";
-const check = GRWorkflow.evaluateMachineLimits(profile, {rpm, feedIpm});
+const check = MBWorkflow.evaluateMachineLimits(profile, {rpm, feedIpm});
 if(check.withinLimits){
  return '<span class="machine-check ok">Machine check — ' + escapeHtml(profile.name) + ': within configured limits.</span>';
 }
@@ -206,7 +211,7 @@ document.querySelectorAll(".result:not(.result-info)").forEach(result => {
 function latestResultNote(){
 if(!latestShopResult) return "";
 return [
- "GR Programming Calculator",
+ "Sine",
  latestShopResult.label,
  "Machine: " + latestShopResult.machine,
  "Generated: " + latestShopResult.created.toLocaleString(),
@@ -238,7 +243,7 @@ function downloadLatestResult(){
 const note = latestResultNote();
 if(!note) return;
 const stamp = latestShopResult.created.toISOString().replace(/[:.]/g,"-");
-const filename = "gr-calculator-" + latestShopResult.label.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") + "-" + stamp + ".txt";
+const filename = "mb-sine-" + latestShopResult.label.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") + "-" + stamp + ".txt";
 const url = URL.createObjectURL(new Blob([note], {type:"text/plain;charset=utf-8"}));
 const link = document.createElement("a");
 link.href = url;
@@ -427,8 +432,8 @@ updatePresetPreview();
 function updatePresetPreview(){
 const m = materials[parseInt(gid("material").value || 0,10)];
 const type = gid("calcType").value;
-const profile = GRData.materialProfile(m, millingProfileKey(type), gid("presetLevel").value);
-let text = "GR shop baseline—not manufacturer tool data.<br>Material: " + m.name + " · ISO " + m.isoGroup +
+const profile = MBData.materialProfile(m, millingProfileKey(type), gid("presetLevel").value);
+let text = "MB baseline—not manufacturer tool data.<br>Material: " + m.name + " · ISO " + m.isoGroup +
 "<br>SFM low / standard / upper: " + formatRange(profile.range) +
 "<br>Selected SFM: " + profile.sfm + " (" + profile.level + ")<br>";
 if(type === "drill"){
@@ -449,7 +454,7 @@ function applyPreset(){
 const m = materials[parseInt(gid("material").value || 0,10)];
 const d = toolDiaInches();
 const type = gid("calcType").value;
-const profile = GRData.materialProfile(m, millingProfileKey(type), gid("presetLevel").value);
+const profile = MBData.materialProfile(m, millingProfileKey(type), gid("presetLevel").value);
 gid("speedBasis").value = "sfm";
 updateSpeedBasisUI("main");
 gid("sfm").value = profile.sfm;
@@ -489,7 +494,7 @@ if(d <= 0){
 
 let speed;
 try{
- speed = GRCalc.resolveSurfaceSpeed({
+ speed = MBCalc.resolveSurfaceSpeed({
   basis: gid("speedBasis").value,
   sfm: num("sfm"),
   rpm: num("rpm"),
@@ -594,8 +599,8 @@ gid("mainResult").innerHTML = out;
 function updateTurningPresetPreview(){
 const m = materials[parseInt(gid("turnMaterial").value || 0,10)];
 const type = gid("turnType").value;
-const profile = GRData.materialProfile(m, turningProfileKey(type), gid("turnPresetLevel").value);
-let text = "GR shop baseline—not manufacturer tool data.<br>Material: " + m.name + " · ISO " + m.isoGroup +
+const profile = MBData.materialProfile(m, turningProfileKey(type), gid("turnPresetLevel").value);
+let text = "MB baseline—not manufacturer tool data.<br>Material: " + m.name + " · ISO " + m.isoGroup +
 "<br>SFM low / standard / upper: " + formatRange(profile.range) +
 "<br>Selected SFM: " + profile.sfm + " (" + profile.level + ")<br>";
 if(type === "turn") text += "OD or face turning uses IPR and solves the missing RPM or SFM from diameter.";
@@ -610,7 +615,7 @@ const m = materials[parseInt(gid("turnMaterial").value || 0,10)];
 const d = turnDiaInches();
 const type = gid("turnType").value;
 let iprFactor = 1;
-const profile = GRData.materialProfile(m, turningProfileKey(type), gid("turnPresetLevel").value);
+const profile = MBData.materialProfile(m, turningProfileKey(type), gid("turnPresetLevel").value);
 if(type === "bore"){
  iprFactor = 0.85;
 }else if(type === "groove"){
@@ -676,7 +681,7 @@ if(d <= 0){
 }
 let speed;
 try{
- speed = GRCalc.resolveSurfaceSpeed({
+ speed = MBCalc.resolveSurfaceSpeed({
   basis: gid("turnSpeedBasis").value,
   sfm: num("turnSfm"),
   rpm: num("turnRpm"),
@@ -969,7 +974,7 @@ return unique.slice(0,6);
 }
 
 function tapDrillRange(threadType, thread, tapStyle){
-return GRCalc.tapDrillRange(threadType, thread, tapStyle);
+return MBCalc.tapDrillRange(threadType, thread, tapStyle);
 }
 
 
@@ -1059,7 +1064,7 @@ function applyTapPreset(){
 const material = materials[parseInt(gid("tapWorkMaterial").value || 0,10)] || materials[0];
 const toolMaterial = gid("tapToolMaterial").value;
 const profileKey = toolMaterial === "carbide" ? "tapCarbide" : "tapHss";
-const profile = GRData.materialProfile(material, profileKey, gid("tapPresetLevel").value);
+const profile = MBData.materialProfile(material, profileKey, gid("tapPresetLevel").value);
 const styleFactor = gid("tapCalcStyle").value === "form" ? 0.8 : 1;
 const threadFactor = gid("tapCalcThreadType").value === "NPT" ? 0.85 : 1;
 gid("tapSpeedBasis").value = "sfm";
@@ -1078,14 +1083,14 @@ const majorIn = tapCalcMajorInches();
 const pitchVal = num("tapCalcPitch");
 const pitchIn = pitchInchesForType(type, pitchVal);
 const profileKey = toolMaterial === "carbide" ? "tapCarbide" : "tapHss";
-const profile = GRData.materialProfile(material, profileKey, gid("tapPresetLevel").value);
+const profile = MBData.materialProfile(material, profileKey, gid("tapPresetLevel").value);
 let recommended = profile.sfm * (style === "form" ? 0.8 : 1.0) * (type === "NPT" ? 0.85 : 1.0);
 if(gid("tapSpeedBasis").value === "sfm" && num("tapCalcSfm") <= 0){
  gid("tapCalcSfm").value = round(recommended,1);
 }
 let speed;
 try{
- speed = GRCalc.resolveSurfaceSpeed({
+ speed = MBCalc.resolveSurfaceSpeed({
   basis: gid("tapSpeedBasis").value,
   sfm: num("tapCalcSfm"),
   rpm: num("tapCalcRpm"),
@@ -1103,7 +1108,7 @@ const mmPerRev = type === "METRIC" ? pitchVal : pitchIn * 25.4;
 const mmMin = rpm * mmPerRev;
 gid("tapSpeedResult").innerHTML =
 "Material: " + material.name + " · ISO " + material.isoGroup + "<br>" +
-"GR tap baseline low / standard / upper: " + formatRange(profile.range) + " SFM<br>" +
+"MB tap baseline low / standard / upper: " + formatRange(profile.range) + " SFM<br>" +
 "Adjusted selected baseline (verify with tap data): " + round(recommended,1) + " SFM<br>" +
 "Basis: " + (speed.basis === "sfm" ? "entered SFM" : "entered RPM") + "<br>" +
 "Calculated RPM: " + round(rpm,0) + "<br>" +
@@ -1138,7 +1143,7 @@ const toolDia = gid("tmUnits").value === "metric" ? toolDiaInput / 25.4 : toolDi
 const depth = gid("tmUnits").value === "metric" ? depthInput / 25.4 : depthInput;
 let result;
 try{
- result = GRCalc.threadMill({
+ result = MBCalc.threadMill({
   threadMajorInches: majorIn,
   toolDiameterInches: toolDia,
   rpm,
@@ -1248,7 +1253,7 @@ const cskMajor = num("cskMajor");
 const angle = num("cskAngle");
 let depth;
 try{
- depth = GRCalc.countersinkDepth(holeDia, cskMajor, angle);
+ depth = MBCalc.countersinkDepth(holeDia, cskMajor, angle);
 }catch(error){
  showCalculationError("cskResult", error);
  return;
@@ -1266,7 +1271,7 @@ const tool = num("helixToolDia");
 const angle = num("helixAngleDeg");
 let result;
 try{
- result = GRCalc.helixPitch(bore, tool, angle);
+ result = MBCalc.helixPitch(bore, tool, angle);
 }catch(error){
  showCalculationError("helixPitchResult", error);
  return;
@@ -1286,7 +1291,7 @@ const tool = num("helixToolDia");
 const pitch = num("targetPitch");
 let result;
 try{
- result = GRCalc.helixAngle(bore, tool, pitch);
+ result = MBCalc.helixAngle(bore, tool, pitch);
 }catch(error){
  showCalculationError("helixPitchResult", error);
  return;
@@ -1311,7 +1316,7 @@ gid("helixPitchResult").innerHTML = "";
 function calcCircularInterpolation(){
 let result;
 try{
- result = GRCalc.circularInterpolationFeed({
+ result = MBCalc.circularInterpolationFeed({
   featureDiameter:num("arcFeatureDia"),
   toolDiameter:num("arcToolDia"),
   surfaceFeedIpm:num("arcSurfaceFeed"),
@@ -1336,14 +1341,14 @@ function calcEffectiveDiameter(){
 let result;
 let effectiveSfm;
 try{
- result = GRCalc.effectiveCuttingDiameter({
+ result = MBCalc.effectiveCuttingDiameter({
   toolType:gid("effectiveToolType").value,
   toolDiameter:num("effectiveToolDia"),
   axialDepth:num("effectiveAxialDepth"),
   tipDiameter:num("effectiveTipDia"),
   includedAngleDegrees:num("effectiveIncludedAngle")
  });
- effectiveSfm = GRCalc.sfmFromRpm(num("effectiveRpm"), result.effectiveDiameter);
+ effectiveSfm = MBCalc.sfmFromRpm(num("effectiveRpm"), result.effectiveDiameter);
 }catch(error){
  showCalculationError("effectiveDiameterResult", error);
  return;
@@ -1363,7 +1368,7 @@ gid("scallopHeight").disabled = !fromHeight;
 function calcScallop(){
 let result;
 try{
- result = GRCalc.scallopGeometry({
+ result = MBCalc.scallopGeometry({
   solveFrom:gid("scallopSolveFrom").value,
   ballDiameter:num("scallopBallDia"),
   stepover:num("scallopStepover"),
@@ -1386,7 +1391,7 @@ const deltaX = num("positionActualX") - num("positionNominalX");
 const deltaY = num("positionActualY") - num("positionNominalY");
 let result;
 try{
- result = GRCalc.truePosition(deltaX, deltaY);
+ result = MBCalc.truePosition(deltaX, deltaY);
 }catch(error){
  showCalculationError("truePositionResult", error);
  return;
@@ -1401,7 +1406,7 @@ gid("truePositionResult").innerHTML =
 function calcBoreStockPlan(){
 let result;
 try{
- result = GRCalc.boreStockPlan({
+ result = MBCalc.boreStockPlan({
   currentDiameter:num("boreCurrentDia"),
   finishDiameter:num("boreFinishDia"),
   maxRadialDepth:num("boreMaxRadialDepth"),
@@ -1477,7 +1482,7 @@ const source = gid("circleSource").value;
 const sourceId = source === "radius" ? "circleRad" : source === "circumference" ? "circleCirc" : "circleDia";
 let result;
 try{
- result = GRCalc.circleFrom(source, num(sourceId));
+ result = MBCalc.circleFrom(source, num(sourceId));
 }catch(error){
  showCalculationError("circleResult", error);
  return;
@@ -1545,7 +1550,7 @@ gid("basicShopMathResult").innerHTML =
 function solveRightTriangle(){
 let result;
 try{
- result = GRCalc.rightTriangle({
+ result = MBCalc.rightTriangle({
   solveFrom: gid("trigSolveFrom").value,
   sideA: num("trigSideA"),
   sideB: num("trigSideB"),
@@ -1571,6 +1576,12 @@ gid("trigResult").innerHTML =
 "Angle B: " + round(angleB,4) + "°";
 }
 
+// One-time carry-over of saved profiles/preferences from the pre-rename storage keys.
+MBWorkflow.migrateLegacyKeys(window.localStorage, {
+"grCalculator.machineProfiles.v1": MACHINE_STORAGE_KEY,
+"grCalculator.activeMachine.v1": ACTIVE_MACHINE_STORAGE_KEY,
+"grCalculator.preferences.v1": PREFERENCE_STORAGE_KEY
+});
 populateMaterials();
 populateTapWorkMaterials();
 populateDrillTable();

@@ -1,10 +1,10 @@
-# GR Programming Calculator User Guide
+# Sine User Guide
 
 ## Purpose
 
-The GR Programming Calculator puts frequently used CNC programming and machine-shop calculations on one webpage. It is intended for planning, programming, and checking work—not for automatically controlling a machine or replacing tooling data and prove-out.
+Sine puts frequently used CNC programming and machine-shop calculations on one webpage. It is intended for planning, programming, and checking work—not for automatically controlling a machine or replacing tooling data and prove-out.
 
-Live calculator: [matthewjaybarr-png.github.io/GR-CALCULATOR](https://matthewjaybarr-png.github.io/GR-CALCULATOR/)
+Live calculator: [matthewjaybarr-png.github.io/MB-Sine](https://matthewjaybarr-png.github.io/MB-Sine/)
 
 ## Main sections
 
@@ -24,7 +24,7 @@ End-mill mode uses radial stepover for chip thinning. Face-mill and shoulder-mil
 
 The turning calculator covers OD/face turning, boring, grooving, and drilling on a lathe. It uses IPR and the selected SFM/RPM basis.
 
-GR shop baselines are starting assumptions. Enter manufacturer values when they are available.
+MB baselines are starting assumptions. Enter manufacturer values when they are available.
 
 ### Drill Charts and Sizes
 
@@ -66,7 +66,7 @@ Includes inch/millimeter, decimal/fraction, pitch, and surface-speed conversions
 
 ### Reference Tables
 
-The formula table summarizes the relationships used by the calculators. The material table shows low, standard, and upper GR shop baselines by operation and tool class.
+The formula table summarizes the relationships used by the calculators. The material table shows low, standard, and upper MB baselines by operation and tool class.
 
 ## Saved preferences and offline use
 
