@@ -883,7 +883,9 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 <tr><td>Tapping inch</td><td>Pitch = 1 / TPI</td><td>Lead or feed per revolution in inches</td></tr>
 <tr><td>Tapping metric</td><td>Pitch inches = Metric pitch / 25.4</td><td>Convert metric pitch to inch lead</td></tr>
 <tr><td>Tapping</td><td>Feed IPM = RPM × Pitch</td><td>Rigid tap feed rate</td></tr>
-<tr><td>Tap drill inch</td><td>Tap drill ≈ Major dia − (1.299038 × pitch × thread percent)</td><td>Approximate cutting tap drill size</td></tr>
+<tr><td>Tap drill</td><td>Tap drill ≈ Major dia − (1.299038 × pitch × thread percent)</td><td>Cutting tap drill size (75 percent thread typical)</td></tr>
+<tr><td>Tap drill</td><td>Form tap drill ≈ Major dia − (0.68 × pitch × thread percent)</td><td>Form (roll) tap drill size (65 percent thread typical)</td></tr>
+<tr><td>Thread milling</td><td>Centerline feed = RPM × teeth × FPT × (major dia ∓ tool dia) / major dia</td><td>Programmed thread-mill feed: minus for internal, plus for external threads</td></tr>
 <tr><td>Point depth</td><td>Depth = (Dia / 2) / tan(included angle / 2)</td><td>Drill point, spot, or countersink depth</td></tr>
 <tr><td>Chamfer</td><td>Program depth = chamfer size / tan(included angle / 2)</td><td>Z depth from a sharp edge to hold a chamfer size per side</td></tr>
 <tr><td>Countersink</td><td>Depth = ((major dia − hole dia) / 2) / tan(included angle / 2)</td><td>Countersink depth from hole size and target major diameter</td></tr>

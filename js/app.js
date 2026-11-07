@@ -538,10 +538,12 @@ else if(type === "endmill"){
   return;
  }
  const ratio = stepover / d;
- let chipThin = 1;
- if(ratio > 0 && ratio < 0.5){
-  const inside = 1 - Math.pow(1 - 2 * ratio, 2);
-  chipThin = inside > 0 ? 1 / Math.sqrt(inside) : 1;
+ let chipThin;
+ try{
+  chipThin = MBCalc.radialChipThinningFactor(stepover, d);
+ }catch(error){
+  showCalculationError("mainResult", error);
+  return;
  }
  const adjustedFpt = fpt * chipThin;
  const programmedIpm = rpm * flutes * fpt;
@@ -789,9 +791,7 @@ if(!parsed){
 result.innerHTML = "Could not read that size. Try formats like 3/16, #7, A, 10.2 mm, or .257.";
 return;
 }
-const nearest = allDrills.reduce((best,d)=>{
-return Math.abs(d.dec - parsed.dec) < Math.abs(best.dec - parsed.dec) ? d : best;
-}, allDrills[0]);
+const nearest = nearestDrill(parsed.dec);
 
 result.innerHTML =
 "Entered size: " + escapeHtml(parsed.name) + "<br>" +
@@ -850,14 +850,6 @@ gid("peckResult").innerHTML =
 note;
 }
 
-function currentThreadArray(){
-const type = gid("threadType").value;
-if(type === "UNC") return UNC;
-if(type === "UNF") return UNF;
-if(type === "NPT") return NPT;
-return METRIC;
-}
-
 function currentThreadArrayFromType(type){
 if(type === "UNC") return UNC;
 if(type === "UNF") return UNF;
@@ -866,7 +858,7 @@ return METRIC;
 }
 
 function loadThreadChart(){
-const arr = currentThreadArray();
+const arr = currentThreadArrayFromType(gid("threadType").value);
 const sel = gid("threadSelect");
 if(!sel) return;
 sel.innerHTML = "";
@@ -962,10 +954,6 @@ if(diff < bestDiff){ best = d; bestDiff = diff; }
 return best;
 }
 
-function nearestDrillName(dec){
-return nearestDrill(dec).name;
-}
-
 function drillAlternativesInRange(minDec,maxDec,preferredDec){
 const arr = allDrills.filter(d => d.dec >= minDec - 0.00001 && d.dec <= maxDec + 0.00001);
 arr.sort((a,b)=>Math.abs(a.dec - preferredDec) - Math.abs(b.dec - preferredDec));
@@ -976,14 +964,11 @@ if(!unique.find(x=>x.name===d.name)) unique.push(d);
 return unique.slice(0,6);
 }
 
-function tapDrillRange(threadType, thread, tapStyle){
-return MBCalc.tapDrillRange(threadType, thread, tapStyle);
-}
 
 
 function calcTapSearch(){
 const idx = parseInt(gid("threadSelect").value || 0,10);
-const arr = currentThreadArray();
+const arr = currentThreadArrayFromType(gid("threadType").value);
 const type = gid("threadType").value;
 const tapStyle = gid("tapStyle").value;
 const t = arr[idx] || arr[0];
@@ -991,22 +976,33 @@ if(!t){
  gid("tapResult").innerHTML = "No matching thread found.";
  return;
 }
-const range = tapDrillRange(type, t, tapStyle);
+const range = MBCalc.tapDrillRange(type, t, tapStyle);
 if(range.unsupported){
  gid("tapResult").textContent = range.note;
  return;
 }
-const typicalDrill = range.exact ? {name:t.tap,dec:t.tapDec} : nearestDrill(range.typicalDec);
-const minDrill = range.exact ? typicalDrill : nearestDrill(range.minDec);
-const maxDrill = range.exact ? typicalDrill : nearestDrill(range.maxDec);
+// chart drills inside the calculated range; the ends are never outside it
+const inRange = range.exact ? [] : allDrills.filter(d => d.dec >= range.minDec - 0.00001 && d.dec <= range.maxDec + 0.00001);
+const typicalDrill = range.exact ? {name:t.tap,dec:t.tapDec}
+: inRange.length ? inRange.reduce((a,b) => Math.abs(b.dec - range.typicalDec) < Math.abs(a.dec - range.typicalDec) ? b : a)
+: nearestDrill(range.typicalDec);
+const minDrill = range.exact ? typicalDrill : inRange[0];
+const maxDrill = range.exact ? typicalDrill : inRange[inRange.length - 1];
 const alts = range.exact ? [] : drillAlternativesInRange(range.minDec, range.maxDec, typicalDrill.dec);
+const pct = range.percentRange ? range.percentRange.map(p => Math.round(p * 100)) : null;
 let out = "";
 out += "Thread: " + t.thread + "<br>";
 out += "Tap style: " + (tapStyle === "form" ? "Form tap" : "Cutting tap") + "<br>";
 out += (range.exact ? "Listed tap drill: " : "Typical tap drill: ") + typicalDrill.name + " (" + round(typicalDrill.dec,4) + " inch, " + round(typicalDrill.dec*25.4,3) + " mm)<br>";
 if(!range.exact){
- out += "Smallest recommended drill: " + minDrill.name + " (" + round(minDrill.dec,4) + " inch, " + round(minDrill.dec*25.4,3) + " mm)<br>";
- out += "Largest recommended drill: " + maxDrill.name + " (" + round(maxDrill.dec,4) + " inch, " + round(maxDrill.dec*25.4,3) + " mm)<br>";
+ out += "Calculated range (" + pct[2] + "% to " + pct[0] + "% thread): " + round(range.minDec,4) + " to " + round(range.maxDec,4) + " inch<br>";
+ if(minDrill){
+  out += "Smallest drill in range: " + minDrill.name + " (" + round(minDrill.dec,4) + " inch, " + round(minDrill.dec*25.4,3) + " mm)<br>";
+  out += "Largest drill in range: " + maxDrill.name + " (" + round(maxDrill.dec,4) + " inch, " + round(maxDrill.dec*25.4,3) + " mm)<br>";
+ }else{
+  out += "No chart drill falls inside this range; the typical drill above is the nearest.<br>";
+ }
+ if(tapStyle === "cut" && t.tap) out += "Standard chart tap drill (cutting tap): " + t.tap + " (" + round(t.tapDec,4) + " inch)<br>";
  out += "Acceptable alternatives: " + (alts.length ? alts.map(d=>d.name + " (" + round(d.dec,4) + ")").join(", ") : "None found in chart range") + "<br>";
 }
 const raw = gid("candidateDrill").value.trim();
@@ -1166,7 +1162,8 @@ out += "Thread location: " + (location === "internal" ? "Internal" : "External")
 out += "Pitch per revolution in inches: " + round(pitchIn,5) + "<br>";
 out += "Toolpath centerline diameter: " + round(pathDia,5) + "<br>";
 out += "Cutting teeth or flutes: " + round(flutes,0) + "<br>";
-out += "Feed rate (RPM × teeth × FPT): " + round(feed,4) + " IPM<br>";
+out += "Feed at the cutting edge (RPM × teeth × FPT): " + round(result.peripheryFeedIpm,4) + " IPM<br>";
+out += "Programmed centerline feed (× " + round(result.compensationRatio,4) + "): " + round(feed,4) + " IPM<br>";
 if(type === "NPT"){
  const diameterChange = depth * 0.0625;
  out += "NPT taper angle per side: 1.7899°<br>";
@@ -1233,7 +1230,7 @@ out += "Target chamfer size per side: " + round(width,4) + "<br>";
 out += "Target top diameter after chamfer: " + round(targetMajor,4) + "<br>";
 out += "Tool included angle: " + round(angle,4) + "°<br>";
 out += "Tool tip diameter: " + round(tipDia,4) + "<br>";
-out += "Program depth from theoretical point: " + round(depthFromPoint,4) + "<br>";
+out += (tipDia > 0 ? "Program depth from the tool tip: " : "Program depth from the theoretical point: ") + round(depthFromPoint,4) + "<br>";
 out += "Depth when tool just touches the existing hole edge: " + round(touchOffDepth,4) + "<br>";
 out += "Additional Z depth past touch off to hold the chamfer: " + round(additionalDepth,4) + "<br>";
 out += "Chamfer face length: " + round(chamferFaceLength,4);
