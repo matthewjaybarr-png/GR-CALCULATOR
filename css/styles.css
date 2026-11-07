@@ -95,30 +95,6 @@ grid-template-columns:1fr;
 gap:16px;
 margin-bottom:16px;
 }
-.hero{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:16px;
-padding:18px;
-margin-bottom:18px;
-}
-.hero p{
-margin:8px 0 0 0;
-color:var(--muted);
-line-height:1.45;
-}
-.badge{
-display:inline-block;
-padding:5px 9px;
-border-radius:999px;
-background:var(--accent);
-border:1px solid var(--accent-line);
-font-size:12px;
-font-weight:700;
-margin-right:6px;
-margin-bottom:6px;
-color:var(--on-accent);
-}
 .sectionhead{
 scroll-margin-top:100px;
 margin:12px 0 8px 0;
@@ -306,10 +282,6 @@ border:1px solid var(--line);
 border-radius:10px;
 background:var(--field-bg);
 }
-.formula-table{
-overflow:visible;
-max-height:none;
-}
 .reference-stack .card .note{margin-bottom:6px;}
 .reference-stack table{font-size:11px;}
 table{
@@ -349,7 +321,7 @@ html{scroll-padding-top:64px}
 .workflow-actions button{width:100%;min-width:0;margin-top:2px;}
 .output-actions{width:100%;}
 }
-h1, .title {
+h1 {
     font-family: var(--title-font);
     font-size: 44px;
     font-weight: 700;
@@ -416,8 +388,7 @@ color-scheme:dark;
 :root[data-host="forge"] .nav{justify-content:flex-start;gap:4px;}
 :root[data-host="forge"] .nav a{background:transparent;border-color:transparent;border-radius:4px;color:#dfe3e8;font-weight:600;}
 :root[data-host="forge"] .nav a:hover{background:#353c46;border-color:#414955;}
-:root[data-host="forge"] .card,
-:root[data-host="forge"] .hero{border-radius:6px;}
+:root[data-host="forge"] .card{border-radius:6px;}
 :root[data-host="forge"] .sectionhead{border-radius:4px;border-left-width:4px;border-left-color:#4a80e2;font-size:15px;}
 :root[data-host="forge"] input,
 :root[data-host="forge"] select,
@@ -432,7 +403,6 @@ color-scheme:dark;
 :root[data-host="forge"] button:not(:disabled):hover{border-color:#4a80e2;}
 :root[data-host="forge"] button.secondary,
 :root[data-host="forge"] button.ghost{border-color:#414955;}
-:root[data-host="forge"] .badge,
 :root[data-host="forge"] .quick button{border-radius:4px;}
 :root[data-host="forge"] :focus-visible{outline:2px solid #4a80e2;outline-offset:1px;}
 /* Forge ships the files; there is no online/offline state to report */

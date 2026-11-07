@@ -12,10 +12,10 @@ The calculator includes:
 
 - Milling, drilling, turning, and tapping speeds and feeds
 - Radial chip-thinning calculations for end mills
-- Drill-size search, conversion, quick selection, point-depth, spot-drill, and peck guidance
+- Drill-size search, conversion, quick selection, point and spot depth, and peck guidance
 - UNC, UNF, metric, and NPT tap-drill checks
-- Cutting-tap, form-tap, and thread-mill helpers
-- Chamfer, countersink, helix, bolt-circle, circle, taper, triangle, and conversion math
+- Cutting-tap and form-tap drills, tap speeds and feeds, and thread-mill centerline feed
+- Chamfer and countersink depth, helix, bolt-circle, circle, taper, triangle, and conversion math
 - Circular-interpolation feed compensation
 - Ball-nose and tapered-tool effective cutting diameter
 - Scallop height and stepover calculations

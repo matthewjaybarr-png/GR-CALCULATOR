@@ -239,42 +239,33 @@ Quick select stays tied to the built in drill chart. Search or convert lets you 
 Bare decimal values are treated as inches; include mm for metric input.
 </div>
 </div><div class="card">
-<h2>Spot and Center Drill Helper</h2>
+<h2>Point and Spot Depth</h2>
 <div class="row2">
 <div>
-<label for="spotToolType">Tool type</label>
+<label for="spotToolType">Tool</label>
 <select id="spotToolType" data-change="applySpotToolType()">
-<option value="spot90">Spot Drill 90°</option>
-<option value="spot120">Spot Drill 120°</option>
-<option value="spot140">Spot Drill 140°</option>
-<option value="center60">Center Drill 60°</option>
-<option value="custom">Custom Angle</option>
+<option value="drill118">Drill 118°</option>
+<option value="drill135">Drill 135°</option>
+<option value="drill140">Drill 140°</option>
+<option value="spot90">Spot drill 90°</option>
+<option value="spot120">Spot drill 120°</option>
+<option value="spot140">Spot drill 140°</option>
+<option value="center60">Center drill 60°</option>
+<option value="custom">Custom angle</option>
 </select>
 </div>
 <div>
 <label for="spotAngle">Included angle</label>
-<input id="spotAngle" step="any" type="number" value="90"/>
+<input id="spotAngle" step="any" type="number" value="118"/>
 </div>
 </div>
-<label for="followDrillDia">Follow drill diameter</label>
-<input id="followDrillDia" step="any" type="number" value="0.250"/>
-<button data-click="calcSpotDrill()">Calculate Spot Diameter Guidance</button>
+<label for="followDrillDia">Diameter (the drill, or the spot diameter wanted)</label>
+<input id="followDrillDia" step="any" type="number" value="0.375"/>
+<button data-click="calcSpotDrill()">Calculate Depth</button>
 <div class="result" id="spotDrillResult"></div>
+<div class="note">For a drill this is the point length: add it to reach full diameter at depth or to break through. For a spot or center drill it is the depth that makes a spot of this diameter; spot slightly larger than the follow drill.</div>
 </div><div class="card">
-<h2>Drill Point Depth and Peck Guide</h2>
-<div class="row2">
-<div>
-<label for="pointDia">Drill diameter</label>
-<input id="pointDia" step="any" type="number" value="0.375"/>
-</div>
-<div>
-<label for="pointAngle">Included point angle</label>
-<input id="pointAngle" step="any" type="number" value="118"/>
-</div>
-</div>
-<button data-click="calcPointDepth()">Calculate Drill Point Depth</button>
-<div class="result" id="pointDepthResult"></div>
-<hr class="divider"/>
+<h2>Peck Guide</h2>
 <div class="row2">
 <div>
 <label for="peckDia">Drill diameter</label>
@@ -497,24 +488,31 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 </div>
 </div></div>
 <div class="sectionhead" id="milling">Geometry and Helix</div><div class="grid-auto"><div class="card">
-<h2>Chamfer Depth Helper</h2>
+<h2>Chamfer and Countersink Depth</h2>
 <div class="row2">
 <div>
 <label for="chamferHoleDia">Starting hole diameter</label>
 <input id="chamferHoleDia" step="any" type="number" value="0.250"/>
 </div>
 <div>
-<label for="chamferWidth">Target chamfer size per side</label>
+<label for="chamferWidth" id="chamferWidthLabel">Target chamfer size per side</label>
 <input id="chamferWidth" step="any" type="number" value="0.030"/>
 </div>
 </div>
+<label for="chamferSizeBy">Size given as</label>
+<select id="chamferSizeBy" data-change="updateChamferSizeBy()">
+<option value="width">Chamfer size per side</option>
+<option value="major">Top (countersink) diameter</option>
+</select>
 <div class="row2">
 <div>
 <label for="chamferAngle">Tool included angle</label>
 <select id="chamferAngle">
 <option value="30">30 degree tool for 15 degree chamfer</option>
 <option value="60">60 degree tool for 30 degree chamfer</option>
+<option value="82">82 degree countersink</option>
 <option selected="selected" value="90">90 degree tool for 45 degree chamfer</option>
+<option value="100">100 degree countersink</option>
 <option value="120">120 degree tool for 60 degree chamfer</option>
 <option value="15">15 degree included</option>
 <option value="45">45 degree included</option>
@@ -530,32 +528,9 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 </div>
 <label for="chamferToolMaxDia">Chamfer tool cutting diameter</label>
 <input id="chamferToolMaxDia" step="any" type="number" value="0.500"/>
-<div class="quick">
-<button data-click="setChamferAngle(30)" type="button">15</button>
-<button data-click="setChamferAngle(60)" type="button">30</button>
-<button data-click="setChamferAngle(90)" type="button">45</button>
-<button data-click="setChamferAngle(120)" type="button">60</button>
-</div>
 <button data-click="calcChamfer()">Calculate Program Depth</button>
 <div class="result" id="chamferResult"></div>
-<div class="note">Uses hole size, chamfer size, tool angle, tip diameter, and tool cutting diameter to show the actual depth needed in the program and whether the tool is large enough.</div>
-</div><div class="card">
-<h2>Countersink Depth Helper</h2>
-<label for="holeDia">Starting hole diameter</label>
-<input id="holeDia" step="any" type="number" value="0.250"/>
-<label for="cskMajor">Countersink major diameter</label>
-<input id="cskMajor" step="any" type="number" value="0.500"/>
-<label for="cskAngle">Included angle</label>
-<select id="cskAngle">
-<option value="60">60 degree</option>
-<option selected="selected" value="82">82 degree</option>
-<option value="90">90 degree</option>
-<option value="100">100 degree</option>
-<option value="120">120 degree</option>
-</select>
-<button data-click="calcCountersink()">Calculate Countersink</button>
-<div class="result" id="cskResult"></div>
-<div class="note">Use this for countersink depth from existing hole size and target major diameter.</div>
+<div class="note">Give the chamfer as a size per side, or as the top diameter for a countersink. Shows the program depth, the depth past where the tool touches the hole edge, and whether the tool is large enough.</div>
 </div><div class="card">
 <h2>Helix Pitch Calculator</h2>
 <div class="row2">
@@ -814,17 +789,6 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 <button data-click="calcPointDistance()">Calculate distance</button>
 <div class="result" id="pointDistanceResult"></div>
 </div>
-<div class="card">
-<h2>Basic Shop Math</h2>
-<label for="percentBase">Base value</label>
-<input id="percentBase" step="any" type="number" value="1.000"/>
-<label for="percentValue">Percent</label>
-<input id="percentValue" step="any" type="number" value="10"/>
-<label for="percentNew">New value</label>
-<input id="percentNew" step="any" type="number" value="1.100"/>
-<button data-click="calcBasicShopMath()">Calculate</button>
-<div class="result" id="basicShopMathResult"></div>
-</div>
 </div>
 <div class="grid2 compact-grid">
 <div class="card">
@@ -872,23 +836,18 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 <tr><th>Category</th><th>Formula</th><th>Use</th></tr>
 </thead>
 <tbody>
-<tr><td>Drilling</td><td>RPM = (SFM × 3.82) / Dia</td><td>Spindle speed from SFM and tool diameter in inches</td></tr>
-<tr><td>Drilling</td><td>SFM = (RPM × Dia) / 3.82</td><td>Surface speed from RPM and tool diameter</td></tr>
-<tr><td>Drilling</td><td>IPM = RPM × IPR</td><td>Drill feed rate</td></tr>
+<tr><td>Speed</td><td>RPM = (SFM × 3.82) / Dia</td><td>Spindle speed from SFM and diameter in inches: the tool, or the work on a lathe</td></tr>
+<tr><td>Speed</td><td>SFM = (RPM × Dia) / 3.82</td><td>Surface speed from RPM and diameter</td></tr>
+<tr><td>Feed</td><td>IPM = RPM × IPR</td><td>Drilling and turning feed rate</td></tr>
 <tr><td>Milling</td><td>IPM = RPM × Teeth × FPT</td><td>Feed rate for milling cutters</td></tr>
-<tr><td>Milling</td><td>RPM = (SFM × 3.82) / Dia</td><td>Endmill, face mill, shoulder mill spindle speed</td></tr>
 <tr><td>Milling</td><td>Chip thinning factor = 1 / sqrt(1 − (1 − 2 × stepover ratio)^2)</td><td>Radial chip thinning for stepover below 50 percent of tool diameter</td></tr>
-<tr><td>Turning</td><td>RPM = (SFM × 3.82) / Dia</td><td>Turning spindle speed from work diameter</td></tr>
-<tr><td>Turning</td><td>IPM = RPM × IPR</td><td>Turning feed rate</td></tr>
-<tr><td>Tapping inch</td><td>Pitch = 1 / TPI</td><td>Lead or feed per revolution in inches</td></tr>
-<tr><td>Tapping metric</td><td>Pitch inches = Metric pitch / 25.4</td><td>Convert metric pitch to inch lead</td></tr>
+<tr><td>Tapping</td><td>Pitch = 1 / TPI, or metric pitch / 25.4</td><td>Lead or feed per revolution in inches</td></tr>
 <tr><td>Tapping</td><td>Feed IPM = RPM × Pitch</td><td>Rigid tap feed rate</td></tr>
 <tr><td>Tap drill</td><td>Tap drill ≈ Major dia − (1.299038 × pitch × thread percent)</td><td>Cutting tap drill size (75 percent thread typical)</td></tr>
 <tr><td>Tap drill</td><td>Form tap drill ≈ Major dia − (0.68 × pitch × thread percent)</td><td>Form (roll) tap drill size (65 percent thread typical)</td></tr>
 <tr><td>Thread milling</td><td>Centerline feed = RPM × teeth × FPT × (major dia ∓ tool dia) / major dia</td><td>Programmed thread-mill feed: minus for internal, plus for external threads</td></tr>
 <tr><td>Point depth</td><td>Depth = (Dia / 2) / tan(included angle / 2)</td><td>Drill point, spot, or countersink depth</td></tr>
-<tr><td>Chamfer</td><td>Program depth = chamfer size / tan(included angle / 2)</td><td>Z depth from a sharp edge to hold a chamfer size per side</td></tr>
-<tr><td>Countersink</td><td>Depth = ((major dia − hole dia) / 2) / tan(included angle / 2)</td><td>Countersink depth from hole size and target major diameter</td></tr>
+<tr><td>Chamfer</td><td>Depth past the hole edge = chamfer size / tan(included angle / 2), chamfer size = (top dia − hole dia) / 2</td><td>Chamfer or countersink depth from where the tool touches the hole</td></tr>
 <tr><td>Right triangle</td><td>Hypotenuse = sqrt(A^2 + B^2)</td><td>Find diagonal length from two sides</td></tr>
 <tr><td>Right triangle</td><td>Angle = atan(opposite / adjacent)</td><td>Find included right triangle angle</td></tr>
 <tr><td>Bolt circle</td><td>X = center X + radius × cos(angle)</td><td>Bolt hole X coordinate</td></tr>
@@ -905,8 +864,7 @@ This is only a simple programming helper using pitch and turns. Actual gauging a
 <tr><td>Scallop</td><td>Height = radius − sqrt(radius² − (stepover / 2)²)</td><td>Theoretical ball-tool scallop height</td></tr>
 <tr><td>Inspection</td><td>True position = 2 × sqrt(ΔX² + ΔY²)</td><td>Diametrical true position from center deviations</td></tr>
 <tr><td>Bore planning</td><td>Radial stock = (finish dia − current dia) / 2</td><td>Divide rough stock into equal radial passes and preserve finish allowance</td></tr>
-<tr><td>Conversions</td><td>mm = inch × 25.4</td><td>Inch to metric conversion</td></tr>
-<tr><td>Conversions</td><td>inch = mm / 25.4</td><td>Metric to inch conversion</td></tr>
+<tr><td>Conversions</td><td>mm = inch × 25.4</td><td>Inch to metric (inch = mm / 25.4)</td></tr>
 </tbody>
 </table>
 </div>

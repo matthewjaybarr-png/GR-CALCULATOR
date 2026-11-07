@@ -331,13 +331,6 @@ return b ? a / b : 0;
 return parseFloat(text) || 0;
 }
 
-function setSelectSafe(id, idx){
-const el = gid(id);
-if(!el || !el.options || !el.options.length) return;
-const safe = Math.min(Math.max(parseInt(idx || 0,10), 0), el.options.length - 1);
-el.selectedIndex = safe;
-el.value = el.options[safe].value;
-}
 function toolDiaInches(){ const d = num("toolDia"); return gid("units").value === "metric" ? d/25.4 : d; }
 function stepoverInches(){ const s = num("stepover"); return gid("units").value === "metric" ? s/25.4 : s; }
 function peckDiaInches(){ const d = num("peckDia"); return gid("peckUnits").value === "metric" ? d/25.4 : d; }
@@ -809,15 +802,6 @@ gid("drillQuickResult").innerHTML =
 "Millimeters: " + round(d.dec*25.4,3);
 }
 
-function calcPointDepth(){
-const dia = num("pointDia");
-const angle = num("pointAngle");
-const half = (angle/2) * Math.PI / 180;
-const depth = half ? (dia/2) / Math.tan(half) : 0;
-gid("pointDepthResult").innerHTML =
-"Approximate drill point depth: " + round(depth,5) + "<br>" +
-"This is useful when you need total hole depth to a full diameter or breakthrough depth planning.";
-}
 
 function calcPeck(){
 const dia = peckDiaInches();
@@ -1176,53 +1160,63 @@ out += machineLimitMarkup(rpm, feed);
 gid("threadMillResult").innerHTML = out;
 }
 
+const POINT_TOOLS = {
+ drill118:{angle:118, label:"Drill 118°"}, drill135:{angle:135, label:"Drill 135°"}, drill140:{angle:140, label:"Drill 140°"},
+ spot90:{angle:90, label:"Spot drill 90°"}, spot120:{angle:120, label:"Spot drill 120°"}, spot140:{angle:140, label:"Spot drill 140°"},
+ center60:{angle:60, label:"Center drill 60°"}
+};
 function applySpotToolType(){
-const type = gid("spotToolType").value;
-if(type === "spot90") gid("spotAngle").value = "90";
-else if(type === "spot120") gid("spotAngle").value = "120";
-else if(type === "spot140") gid("spotAngle").value = "140";
-else if(type === "center60") gid("spotAngle").value = "60";
+const tool = POINT_TOOLS[gid("spotToolType").value];
+if(tool) gid("spotAngle").value = String(tool.angle);
+calcSpotDrill();
 }
 
 function calcSpotDrill(){
 const type = gid("spotToolType").value;
 const angle = num("spotAngle");
-const drillDia = num("followDrillDia");
-const half = (angle/2) * Math.PI / 180;
-const depth = half ? (drillDia/2) / Math.tan(half) : 0;
-let toolLabel = "Custom tool";
-if(type === "spot90") toolLabel = "Spot drill 90°";
-else if(type === "spot120") toolLabel = "Spot drill 120°";
-else if(type === "spot140") toolLabel = "Spot drill 140°";
-else if(type === "center60") toolLabel = "Center drill 60°";
-
+const dia = num("followDrillDia");
+if(dia <= 0 || angle <= 0 || angle >= 180){
+ gid("spotDrillResult").innerHTML = "Enter a diameter and an included angle between 0 and 180 degrees.";
+ return;
+}
+const depth = (dia/2) / Math.tan((angle/2) * Math.PI / 180);
+const isDrill = type.startsWith("drill");
 gid("spotDrillResult").innerHTML =
-"Tool type: " + toolLabel + "<br>" +
-"Minimum depth to match follow drill diameter: " + round(depth,5) + "<br>" +
-"Target follow drill diameter: " + round(drillDia,5) + "<br>" +
-"This uses the same geometry for both spot drills and center drills. Center drills usually use the 60 degree setting.";
+"Tool: " + (POINT_TOOLS[type] ? POINT_TOOLS[type].label : "Custom " + round(angle,2) + "°") + "<br>" +
+"Diameter: " + round(dia,5) + "<br>" +
+(isDrill ? "Point length (tip to full diameter): " : "Depth to make this diameter: ") + round(depth,5);
 }
 
-function setChamferAngle(includedAngle){
-gid("chamferAngle").value = String(includedAngle);
+
+function updateChamferSizeBy(){
+const byMajor = gid("chamferSizeBy").value === "major";
+const input = gid("chamferWidth");
+const hole = num("chamferHoleDia");
+const value = num("chamferWidth");
+gid("chamferWidthLabel").textContent = byMajor ? "Top (countersink) diameter" : "Target chamfer size per side";
+// keep the same chamfer when switching how it is given
+if(hole > 0 && value > 0) input.value = round(byMajor ? hole + 2 * value : Math.max(0, (value - hole) / 2), 4);
 calcChamfer();
 }
 
 function calcChamfer(){
 const holeDia = num("chamferHoleDia");
-const width = num("chamferWidth");
+const byMajor = gid("chamferSizeBy").value === "major";
+const width = byMajor ? (num("chamferWidth") - holeDia) / 2 : num("chamferWidth");
 const angle = num("chamferAngle");
 const tipDia = num("chamferTipDia");
 const toolMaxDia = num("chamferToolMaxDia");
-if(holeDia <= 0 || width < 0 || angle <= 0 || angle >= 180){
- gid("chamferResult").innerHTML = "Enter a valid hole diameter, chamfer size, and tool angle.";
+if(holeDia <= 0 || width <= 0 || angle <= 0 || angle >= 180){
+ gid("chamferResult").innerHTML = byMajor
+ ? "Enter a hole diameter, a top diameter larger than the hole, and a tool angle."
+ : "Enter a valid hole diameter, chamfer size, and tool angle.";
  return;
 }
 const half = angle / 2 * Math.PI / 180;
 const targetMajor = holeDia + (2 * width);
 const depthFromPoint = Math.tan(half) ? (targetMajor - tipDia) / (2 * Math.tan(half)) : 0;
 const touchOffDepth = Math.tan(half) ? (holeDia - tipDia) / (2 * Math.tan(half)) : 0;
-const additionalDepth = depthFromPoint - touchOffDepth;
+const additionalDepth = MBCalc.countersinkDepth(holeDia, targetMajor, angle);   // = depthFromPoint - touchOffDepth
 const chamferFaceLength = Math.sin(half) ? width / Math.sin(half) : 0;
 let out = "";
 out += "Starting hole diameter: " + round(holeDia,4) + "<br>";
@@ -1247,23 +1241,6 @@ if(toolMaxDia > 0){
 gid("chamferResult").innerHTML = out;
 }
 
-function calcCountersink(){
-const holeDia = num("holeDia");
-const cskMajor = num("cskMajor");
-const angle = num("cskAngle");
-let depth;
-try{
- depth = MBCalc.countersinkDepth(holeDia, cskMajor, angle);
-}catch(error){
- showCalculationError("cskResult", error);
- return;
-}
-gid("cskResult").innerHTML =
-"Countersink included angle: " + round(angle,4) + "°<br>" +
-"Hole diameter: " + round(holeDia,4) + "<br>" +
-"Target major diameter: " + round(cskMajor,4) + "<br>" +
-"Required depth: " + round(depth,4);
-}
 
 function calcPitchFromAngle(){
 const bore = num("boreDia");
@@ -1534,18 +1511,6 @@ gid("pointDistanceResult").innerHTML =
 "Angle from X axis: " + round(angle,4) + "°";
 }
 
-function calcBasicShopMath(){
-const base = num("percentBase");
-const pct = num("percentValue");
-const newVal = num("percentNew");
-const pctOfBase = base * (pct / 100);
-const increased = base * (1 + pct / 100);
-const percentChange = base ? ((newVal - base) / base) * 100 : 0;
-gid("basicShopMathResult").innerHTML =
-"Percent of base: " + round(pctOfBase,6) + "<br>" +
-"Base plus percent: " + round(increased,6) + "<br>" +
-"Percent change from base to new value: " + round(percentChange,4) + "%";
-}
 
 function solveRightTriangle(){
 let result;
@@ -1595,7 +1560,6 @@ updateSpeedBasisUI("turn");
 updateSpeedBasisUI("tap");
 applyPreset();
 applyTapPreset();
-calcPointDepth();
 calcPeck();
 calcTapSearch();
 calcNptHelper();
@@ -1617,7 +1581,6 @@ calcBoltCircle();
 calcCircle();
 calcTaper();
 calcPointDistance();
-calcBasicShopMath();
 solveRightTriangle();
 applyTurningPreset();
 enablePreferenceStorage();
