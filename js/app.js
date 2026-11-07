@@ -194,6 +194,7 @@ latestShopResult = {
  created:new Date()
 };
 gid("latestResultStatus").textContent = latestShopResult.label + " · " + latestShopResult.machine;
+document.dispatchEvent(new CustomEvent("mb-sine:result", {detail:{...latestShopResult, note:latestResultNote()}}));
 gid("copyLatestButton").disabled = false;
 gid("downloadLatestButton").disabled = false;
 }
@@ -265,6 +266,8 @@ function initializeOfflineSupport(){
 updateConnectionStatus();
 window.addEventListener("online", updateConnectionStatus);
 window.addEventListener("offline", updateConnectionStatus);
+// Inside MB Forge the app ships the files itself; a service worker there would only go stale.
+if(document.documentElement.dataset.host === "forge") return;
 if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
  navigator.serviceWorker.register("./service-worker.js").catch(() => {
   gid("connectionStatus").textContent = "Offline setup unavailable";

@@ -1,0 +1,27 @@
+What changed in each MB Sine version (newest first).
+
+== 1.1.0
+Ready for MB Forge and the MB suite
+- Sine runs inside MB Forge. npm run build:forge writes dist/forge/sine/,
+  a copy Forge can carry in its app (see docs/FORGE.md). Inside Forge it
+  uses Forge's graphite colours and font, needs no network and has no
+  service worker. The website looks and works as before.
+- No inline scripts or onclick handlers: buttons name their calculation in
+  data-click / data-change and js/actions.js runs it. Forge's security
+  policy blocks inline handlers, so this is what lets every button work
+  there. The Forge build refuses to finish if the page would break it.
+- Inside Forge, each new result is also sent to the Forge window as a
+  message (label, plain text, the Copy Result note). Forge decides what to
+  do with it; Sine never acts on messages sent to it.
+- Colours are named once at the top of styles.css, so the Forge theme
+  changes names, not rules.
+- Open the site with ?host=forge to preview the Forge look in a browser.
+- The offline cache name moved to mb-sine-v2 so installed copies pick up
+  the new files.
+No calculation, reference value or saved setting changed.
+
+== 1.0.0
+- Renamed to MB Sine (on screen: Sine). Saved profiles and preferences
+  carry over from the old names.
+- Reliability audit, regression tests, user guide, offline single-file and
+  reference-sheet builds.
